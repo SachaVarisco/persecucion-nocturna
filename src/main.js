@@ -21,14 +21,14 @@ const config = {
 			height: 600,
 		},
 		max: {
-			width: 1600,
-			height: 1200,
+			width: 1920,
+			height: 1080,
 		},
 	},
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 200 },
+			gravity: { y:0 },
 			debug: false,
 		}
 	},
