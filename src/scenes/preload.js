@@ -1,38 +1,38 @@
 import Phaser from 'phaser'
-export class preload extends Phaser.Scene {
+export  class preload extends Phaser.Scene {
 	constructor() {
   
 	  super("preload");
 	}
   
 	preload() {
-	  this.load.image("Mainfondo", "public/assets/images/MainMenu.png");
-	  this.load.image("jugar", "public/assets/images/jugarboton.png");
-	  this.load.image("pausa", "public/assets/images/intsalir.png");
-	  this.load.image("timer", "public/assets/images/inttimer.png");
-	  this.load.image("energia", "public/assets/images/intenergia.png");
-	  this.load.image("reanudar", "public/assets/images/reanudar.png");
-	  this.load.image("salir", "public/assets/images/salir.png");
-	  this.load.image("creditos", "public/assets/images/pausacreditos.png");
-	 // this.load.image("fondoPausa", "public/assets/images/fondopausa.png");
-	  this.load.image("sky", "public/assets/images/spritesheet.png");
-	  this.load.image("luz", "public/assets/images/luz.png");
-	  this.load.image("victoriaS", "public/assets/images/victoriaespiritus.png");
-	  this.load.image("victoriaM", "public/assets/images/victoriamonstruo.png");
-	  this.load.image("creditosmenu", "public/assets/images/botoncreditos.png");
-	  this.load.image("ayudamenu", "public/assets/images/botonayuda.png");
-	  this.load.image("volvermenu", "public/assets/images/botonvolveralmenu.png");
-	  this.load.image("ayuda", "public/assets/images/pantallaayuda.png");
-	  this.load.image("creditosP", "public/assets/images/pantallacreditos.png");
-	  this.load.spritesheet("espiritu", "public/assets/images/ConejoTileset.png", {frameWidth: 84,
+	  this.load.image("Mainfondo", "assets/images/MainMenu.png");
+	  this.load.image("jugar", "assets/images/jugarboton.png");
+	  this.load.image("pausa", "assets/images/intsalir.png");
+	  this.load.image("timer", "assets/images/inttimer.png");
+	  this.load.image("energia", "assets/images/intenergia.png");
+	  this.load.image("reanudar", "assets/images/reanudar.png");
+	  this.load.image("salir", "assets/images/salir.png");
+	  this.load.image("creditos", "assets/images/pausacreditos.png");
+	 // this.load.image("fondoPausa", "assets/images/fondopausa.png");
+	  this.load.image("sky", "assets/images/spritesheet.png");
+	  this.load.image("luz", "assets/images/luz.png");
+	  this.load.image("victoriaS", "assets/images/victoriaespiritus.png");
+	  this.load.image("victoriaM", "assets/images/victoriamonstruo.png");
+	  this.load.image("creditosmenu", "assets/images/botoncreditos.png");
+	  this.load.image("ayudamenu", "assets/images/botonayuda.png");
+	  this.load.image("volvermenu", "assets/images/botonvolveralmenu.png");
+	  this.load.image("ayuda", "assets/images/pantallaayuda.png");
+	  this.load.image("creditosP", "assets/images/pantallacreditos.png");
+	  this.load.spritesheet("espiritu", "assets/images/ConejoTileset.png", {frameWidth: 84,
 		frameHeight: 116,})
-		this.load.spritesheet("espiritumuerto", "public/assets/images/ConejoCongelado.png", {frameWidth: 84,
+		this.load.spritesheet("espiritumuerto", "assets/images/ConejoCongelado.png", {frameWidth: 84,
 		  frameHeight: 116,})
-	  this.load.spritesheet("monstruo", "public/assets/images/MonstruoTileset.png", {frameWidth: 84,
+	  this.load.spritesheet("monstruo", "assets/images/MonstruoTileset.png", {frameWidth: 84,
 		frameHeight: 116,})
-	  this.load.audio("intro", "public/assets/sounds/menusong.mp3");
-	  this.load.audio("pasos", "public/assets/sounds/pasos2.wav");
-	  this.load.audio("select", "public/assets/sounds/select.wav");
+	  this.load.audio("intro", "assets/sounds/menusong.mp3");
+	  this.load.audio("pasos", "assets/sounds/pasos2.wav");
+	  this.load.audio("select", "assets/sounds/select.wav");
 	}
   
 	create() {

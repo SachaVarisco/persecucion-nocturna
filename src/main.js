@@ -1,12 +1,12 @@
 import Phaser from 'phaser'
 
-import preload from './scenes/preload';
-import MainMenu from './scenes/mainmenu';
-import ayuda from './scenes/ayuda';
-import creditos from './scenes/creditos';
-import gameplay from './scenes/gameplay';
-import gameover from './scenes/gameover';
-import victoria from './scenes/victory';
+import {preload} from './scenes/preload';
+import {MainMenu} from './scenes/mainmenu';
+import {ayuda} from './scenes/ayuda';
+import {creditos} from './scenes/creditos';
+import {gameplay} from './scenes/gameplay';
+import {gameover} from './scenes/gameover';
+import {victoria} from './scenes/victory';
 
 
 const config = {
@@ -21,8 +21,8 @@ const config = {
 			height: 600,
 		},
 		max: {
-			width: 1920,
-			height: 1080,
+			width: 1600,
+			height: 2000,
 		},
 	},
 	physics: {
