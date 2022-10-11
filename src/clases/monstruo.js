@@ -1,4 +1,4 @@
-class Monstruo{
+export class Monstruo{
     monster;
     movimientos;
     constructor(scene){
@@ -9,12 +9,12 @@ class Monstruo{
     init(){
         this.monster = this.scene.physics.add
         .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
-        .setCircle(120, -60, -40)
+        .setCircle(120, -60, -40);
         
 
         this.oscuroFondo = this.scene.add
         .image(this.monster.x, this.monster.y, "luz")
-        .setOrigin(0.495,0.5);
+        .setOrigin(0.495,0.5); 
 
         let casillaDisponible = [];
         
@@ -44,7 +44,7 @@ class Monstruo{
                             onUpdate: () =>{
                                 this.oscuroFondo.setX(this.monster.x);
                                 this.oscuroFondo.setY(this.monster.y);
-                            }
+                            },
                             onStart: () => {
                                 this.monster.anims.play("monstruocamina", true);
                                 this.scene.audio1.play();

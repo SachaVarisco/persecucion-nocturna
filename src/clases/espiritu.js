@@ -1,4 +1,4 @@
-class Espiritu{
+export class Espiritu{
     spirit;
     movimientos;
     constructor(scene){

@@ -1,15 +1,21 @@
 import Phaser from 'phaser'
+import { gameover } from './gameover';
+import { Monstruo } from '../clases/monstruo';
+import { Espiritu } from '../clases/espiritu';
 
 
 var monstermov;
 var spiritmov;
-
+ 
 var scoreTime;
 var scoreTimeText;
 var timedEvent;
 var energiaText;
 var energiaSText;
 var energiaSpirit = 5;
+
+var gameOver = false
+var victory = false
 
 export class gameplay extends Phaser.Scene{
 	turno = 0;
@@ -22,23 +28,10 @@ export class gameplay extends Phaser.Scene{
         this.load.tilemapTiledJSON("map", "public/assets/tilemaps/mapa.json");
         this.load.image("fondo", "public/assets/images/spritesheet.png");
     }
-    onSecond() {
-        if (! gameOver)
-        {       
-            scoreTime = scoreTime - 1; // One second
-            scoreTimeText.setText(scoreTime);
-            if (scoreTime == 0) {
-                timedEvent.paused = true;
-                this.scene.start(
-                  "gameover",
-                );
-         }            
-        }
-    }
+    
 
     create() {
-		let gameOver = false
-        let victory = false
+		
         let audio1 = this.sound.add('pasos');
         audio1.volume -= 0.8
         let audio2 = this.sound.add('select', {loop:false});
@@ -127,7 +120,6 @@ export class gameplay extends Phaser.Scene{
             return
         }
 
-		
 
         if (monstermov == 0 && spiritmov == 0) {
 			this.turno = 1;
@@ -160,5 +152,18 @@ export class gameplay extends Phaser.Scene{
 
     
         
+    }
+    onSecond() {
+        if (! gameOver)
+        {       
+            scoreTime = scoreTime - 1; // One second
+            scoreTimeText.setText(scoreTime);
+            if (scoreTime == 0) {
+                timedEvent.paused = true;
+                this.scene.start(
+                  "gameover",
+                );
+         }            
+        }
     }
 }
