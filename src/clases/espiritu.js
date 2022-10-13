@@ -1,4 +1,5 @@
 export class Espiritu{
+    scene;
     spirit;
     movimientos;
     constructor(scene){
@@ -12,18 +13,20 @@ export class Espiritu{
         .setCircle(110, -60, -40)
         .setOrigin(0.25, 0.5);
        
-        let salida = this.scene.add.rectangle(this.scene.cuevas.x, this.scene.cuevas.y, 85, 58);
-        let salida2 = this.scene.physics.add.existing(salida);
        
-        let rectangulo = this.scene.add.rectangle(this.scene.casilla.x, this.scene.casilla.y, 85, 65);
-        let rectangulo2 = this.scene.physics.add.existing(rectangulo);
 
         let casillaspirit = [];
 
         this.scene.casillas.forEach((casilla) => {
+            let salida = this.scene.add.rectangle(this.scene.cuevas.x, this.scene.cuevas.y, 85, 58);
+            let salida2 = this.scene.physics.add.existing(salida);
+           
+            let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
+            let rectangulo2 = this.scene.physics.add.existing(rectangulo);
+            
             rectangulo2.setInteractive().on("pointerdown", () => {
                 if (casillaspirit.indexOf(rectangulo2) !== -1) {
-                    if (!this.spirit.anims.isPlaying && this.scene.oscuroFondo == 1) {
+                    if (!this.spirit.anims.isPlaying && this.scene.turno == 1) {
                     this.scene.tweens.add({
                             targets: this.spirit,
                             alpha: 1,
@@ -38,13 +41,15 @@ export class Espiritu{
                             onComplete: () => {
                                 casillaspirit = [];
                                 this.spirit.anims.pause();
-                                this.scene.audio1.pause();  
+                                this.scene.spiritmov --;
+                                console.log(this.scene.spiritmov);
+                               // this.scene.audio1.pause();  
 
                             },
                             
                             onStart: () => {
                                 this.spirit.anims.play("espiritucamina", true);
-                                this.scene.audio1.play();
+                               // this.scene.audio1.play();
                             },
                         });
                     }
@@ -68,7 +73,7 @@ export class Espiritu{
                 this.spirit,
                 salida2, 
                 (spi) => { this.scene.victory = true
-                    this.scene.audio3.pause()
+                    //this.scene.audio3.pause()
                 
             }, null, this)
         },this);

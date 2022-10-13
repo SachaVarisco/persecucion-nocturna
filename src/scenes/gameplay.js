@@ -1,32 +1,40 @@
 import Phaser from 'phaser'
+import { victoria } from './victory';
 import { gameover } from './gameover';
 import { Monstruo } from '../clases/monstruo';
 import { Espiritu } from '../clases/espiritu';
 
 
-var monstermov;
-var spiritmov;
- 
-var scoreTime;
-var scoreTimeText;
-var timedEvent;
-var energiaText;
-var energiaSText;
-var energiaSpirit = 5;
 
-var gameOver = false
-var victory = false
+
 
 export class gameplay extends Phaser.Scene{
-	turno = 0;
+	
+    turno = 0;
+    spawnPoint;
+    spawnPoint2;
+    casillas;
+    cuevas;
+    gameOver = false;
+    victory = false;
+    monstermov = 12;
+    spiritmov = 0;
+    
+    scoreTime;
+    scoreTimeText;
+    timedEvent;
+    energiaText;
+    energiaSText;
+    energiaSpirit = 5;
+    oscuroFondo;
 
     constructor()
 	{
 		super('gameplay')
 	}
 	preload() {
-        this.load.tilemapTiledJSON("map", "public/assets/tilemaps/mapa.json");
-        this.load.image("fondo", "public/assets/images/spritesheet.png");
+        this.load.tilemapTiledJSON("map", "assets/tilemaps/mapa.json");
+        this.load.image("fondo", "assets/images/spritesheet.png");
     }
     
 
@@ -40,7 +48,7 @@ export class gameplay extends Phaser.Scene{
         audio3.volume -= 0.7
     
     
-        timedEvent = this.time.addEvent({ 
+        this.timedEvent = this.time.addEvent({ 
             delay: 1000, 
             callback: this.onSecond, 
             callbackScope: this, 
@@ -57,44 +65,51 @@ export class gameplay extends Phaser.Scene{
         const objectsLayer = map.getObjectLayer("objetos");
         
 
-        const spawnPoint = map.findObject(
+        this.spawnPoint = map.findObject(
             "objetos",
             (obj) => obj.name === "espiritu"
         );
-        const spawnPoint2 = map.findObject(
+        this.spawnPoint2 = map.findObject(
             "objetos",
             (obj) => obj.name === "monstruo"
         );
     
         
 
-        const casillas = map.filterObjects(
+        this.casillas = map.filterObjects(
             "objetos",
             (obj) => obj.type === "casilla"
         );
 
-        const cuevas = map.findObject(
+        this.cuevas = map.findObject(
             "objetos", 
             (obj) => obj.type === "cueva"
         );
 
-		const monster = new Monstruo;
-		const spirit = new Espiritu;
+       
+
+        const spirit = new Espiritu(this);
+		const monster = new Monstruo(this);
+
+        this.oscuroFondo = this.add
+        .image(monster.x, monster.y, "luz")
+        .setOrigin(0.495,0.5); 
+		
     
 		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu",audio3.pause(),
         audio2.play()));
         this.add.image(1200, 70, "timer");
         
 
-        scoreTime = 180;
-        scoreTimeText = this.add.text(1140, 50, scoreTime, {
+        this.scoreTime = 180;
+        this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
           fontSize: "70px",
           fill: "#000",
         });
         this.add.image(600, 70, "energia");
        
-		if (monstermov > 0) {
-            energiaText = this.add.text(650, 40, monstermov, {
+		if (this.monstermov > 0) {
+            this.energiaText = this.add.text(650, 40, this.monstermov, {
            
                 fontSize: "90px",
                 fill: "#000",
@@ -106,14 +121,14 @@ export class gameplay extends Phaser.Scene{
     }
    
     update() {
-        if (gameOver == true) {
+        if (this.gameOver == true) {
             spirit.anims.play("espiritumuerto", true);
             setTimeout(() => {
                 this.scene.start("gameover")
               }, 2000);
             return
         }
-        if (victory == true) {
+        if (this.victory == true) {
             setTimeout(() => {
                 this.scene.start("victory")
               }, 1000);
@@ -121,45 +136,45 @@ export class gameplay extends Phaser.Scene{
         }
 
 
-        if (monstermov == 0 && spiritmov == 0) {
+        if (this.monstermov == 0 && this.spiritmov == 0) {
 			this.turno = 1;
-            //oscuroFondo.visible = false;
-            spiritmov = 7;  
-            energiaSpirit = 5;
-            energiaText.destroy();
-            energiaText = this.add.text(650, 40, "6", {
+           // this.oscuroFondo.visible = false;
+            this.spiritmov = 7;  
+            this.energiaSpirit = 5;
+            this.energiaText.destroy();
+            this.energiaText = this.add.text(650, 40, "6", {
                 fontSize: "90px",
                 fill: "#000",
             });
            
         }
         
-        if (spiritmov == 1) {
+        if (this.spiritmov == 1) {
 			this.turno = 0;
-            //oscuroFondo.visible = true;
+            //this.oscuroFondo.visible = true;
 
-            monstermov = 12;
-            spiritmov = 0;   
-            energiaText.destroy();
-            energiaText = this.add.text(650, 40, monstermov, {
+            this.monstermov = 12;
+            this.spiritmov = 0;   
+            this.energiaText.destroy();
+            this.energiaText = this.add.text(650, 40, this.monstermov, {
                 fontSize: "90px",
                 fill: "#000",
             });
         }
-
-		oscuroFondo.visible = (this.turno == 0);
+        
+        this.oscuroFondo = (this.turno == 0);
        
 
     
         
     }
     onSecond() {
-        if (! gameOver)
+        if (! this.gameOver)
         {       
-            scoreTime = scoreTime - 1; // One second
-            scoreTimeText.setText(scoreTime);
-            if (scoreTime == 0) {
-                timedEvent.paused = true;
+            this.scoreTime = this.scoreTime - 1; // One second
+            this.scoreTimeText.setText(this.scoreTime);
+            if (this.scoreTime == 0) {
+                this.timedEvent.paused = true;
                 this.scene.start(
                   "gameover",
                 );

@@ -8,6 +8,6 @@ export class gameover extends Phaser.Scene {
       
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "victoriaM");
       this.add.image(550, 800, "volvermenu").setScale(1.2).setInteractive().on("pointerdown",()=>this.scene.start("MainMenu",
-      audio2.play()));
+      /*audio2.play()*/));
     }
   }
