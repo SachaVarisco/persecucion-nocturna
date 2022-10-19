@@ -3,9 +3,19 @@ export class Monstruo{
     monster;
     movimientos;
     casillaDisponible;
+    oscuroFondo;
+    audio1;
     constructor(scene){
         this.scene = scene;
         this.init();
+    }
+    
+    update(){
+        if (this.scene.turno == 0) {
+            this.oscuroFondo.visible = true;
+        } else {
+            this.oscuroFondo.visible = false;
+        }
     }
 
     init(){
@@ -13,10 +23,19 @@ export class Monstruo{
         this.monster = this.scene.physics.add
         .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
         .setCircle(120, -60, -40);
+
+        this.oscuroFondo = this.scene.add
+        .image(this.monster.x, this.monster.y, "luz")
+        .setOrigin(0.495,0.5);
+
+        
+        this.audio1 = this.scene.sound.add('pasos');
+        this.audio1.volume -= 0.5
         
 
         
         this.casillaDisponible = [];
+    
 
         this.scene.casillas.forEach((casilla) => {
             
@@ -69,18 +88,18 @@ export class Monstruo{
                             x: rectangulo2.body.position.x + rectangulo2.body.width/2,
                             y: rectangulo2.body.position.y,
                             onComplete: () => {
-                                this.scene.monstertmov --;
+                                this.scene.monstermov --;
                                 this.casillaDisponible = [];
                                 this.monster.anims.pause();
-                                //this.scene.audio1.pause();
+                                this.audio1.pause();
                             },
                             onUpdate: () =>{
-                                this.scene.oscuroFondo.x == this.monster.x;
-                                this.scene.oscuroFondo.y == this.monster.y;
+                                this.oscuroFondo.setX(this.monster.x);
+                                this.oscuroFondo.setY(this.monster.y);
                             },
                             onStart: () => {
                                 this.monster.anims.play("monstruocamina", true);
-                               // this.scene.audio1.play();
+                                this.audio1.play();
                                 
                             },
                             

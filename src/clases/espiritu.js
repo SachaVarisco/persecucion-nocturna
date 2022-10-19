@@ -12,7 +12,8 @@ export class Espiritu{
         .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
         .setCircle(110, -60, -40)
         .setOrigin(0.25, 0.5);
-       
+        let audio1 = this.scene.sound.add('pasos');
+        audio1.volume -= 0.8
        
 
         let casillaspirit = [];
@@ -25,9 +26,11 @@ export class Espiritu{
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
             
             rectangulo2.setInteractive().on("pointerdown", () => {
+                
                 if (casillaspirit.indexOf(rectangulo2) !== -1) {
                     if (!this.spirit.anims.isPlaying && this.scene.turno == 1) {
-                    this.scene.tweens.add({
+                        
+                        this.scene.tweens.add({
                             targets: this.spirit,
                             alpha: 1,
                             ease: "Linear", // 'Cubic', 'Elastic', 'Bounce', 'Back'
@@ -43,13 +46,13 @@ export class Espiritu{
                                 this.spirit.anims.pause();
                                 this.scene.spiritmov --;
                                 console.log(this.scene.spiritmov);
-                               // this.scene.audio1.pause();  
+                                audio1.pause();  
 
                             },
                             
                             onStart: () => {
                                 this.spirit.anims.play("espiritucamina", true);
-                               // this.scene.audio1.play();
+                                audio1.play();
                             },
                         });
                     }

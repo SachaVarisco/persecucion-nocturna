@@ -26,7 +26,7 @@ export class gameplay extends Phaser.Scene{
     energiaText;
     energiaSText;
     energiaSpirit = 5;
-    oscuroFondo;
+
 
     constructor()
 	{
@@ -40,8 +40,7 @@ export class gameplay extends Phaser.Scene{
 
     create() {
 		
-        let audio1 = this.sound.add('pasos');
-        audio1.volume -= 0.8
+        
         let audio2 = this.sound.add('select', {loop:false});
         let audio3 = this.sound.add('intro', {loop:true});
         audio3.play();
@@ -91,9 +90,7 @@ export class gameplay extends Phaser.Scene{
         const spirit = new Espiritu(this);
 		const monster = new Monstruo(this);
 
-        this.oscuroFondo = this.add
-        .image(monster.x, monster.y, "luz")
-        .setOrigin(0.495,0.5); 
+        
 		
     
 		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu",audio3.pause(),
@@ -122,7 +119,7 @@ export class gameplay extends Phaser.Scene{
    
     update() {
         if (this.gameOver == true) {
-            spirit.anims.play("espiritumuerto", true);
+            this.spirit.anims.play("espiritumuerto", true);
             setTimeout(() => {
                 this.scene.start("gameover")
               }, 2000);
@@ -137,8 +134,8 @@ export class gameplay extends Phaser.Scene{
 
 
         if (this.monstermov == 0 && this.spiritmov == 0) {
+            
 			this.turno = 1;
-           // this.oscuroFondo.visible = false;
             this.spiritmov = 7;  
             this.energiaSpirit = 5;
             this.energiaText.destroy();
@@ -151,7 +148,6 @@ export class gameplay extends Phaser.Scene{
         
         if (this.spiritmov == 1) {
 			this.turno = 0;
-            //this.oscuroFondo.visible = true;
 
             this.monstermov = 12;
             this.spiritmov = 0;   
