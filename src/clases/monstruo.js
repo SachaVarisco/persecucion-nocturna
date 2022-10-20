@@ -5,18 +5,20 @@ export class Monstruo{
     casillaDisponible;
     oscuroFondo;
     audio1;
+    recTemp;
     constructor(scene){
         this.scene = scene;
         this.init();
     }
     
-    update(){
-        if (this.scene.turno == 0) {
-            this.oscuroFondo.visible = true;
-        } else {
-            this.oscuroFondo.visible = false;
-        }
-    }
+    
+        
+      //  if (this.scene.turno == 0) {
+      //      this.oscuroFondo.visible = true;
+      //  } else {
+      //      this.oscuroFondo.visible = false;
+     //  }
+    
 
     init(){
         
@@ -33,7 +35,7 @@ export class Monstruo{
         this.audio1.volume -= 0.5
         
 
-        
+        this.recTemp = [];
         this.casillaDisponible = [];
     
 
@@ -58,7 +60,9 @@ export class Monstruo{
         });
     }
 
-
+    update(){
+        this.comprobarCasillas();
+    }
     comprobarCasillas()
     {
         this.scene.casillas.forEach((casilla) => {
@@ -76,8 +80,8 @@ export class Monstruo{
 
             rectangulo2.setInteractive().on("pointerdown", () => {    
                 if (casillaDisponibleIn) {
-                    
-                    if (!this.monster.anims.isPlaying && this.scene.turno == 0) {
+                    this.scene.add.image()
+                    if (!this.monster.anims.isPlaying && this.scene.monstermov > 0) {
                         this.scene.tweens.add({
                             targets: this.monster,
                             alpha: 1,
@@ -89,9 +93,13 @@ export class Monstruo{
                             y: rectangulo2.body.position.y,
                             onComplete: () => {
                                 this.scene.monstermov --;
+                                
                                 this.casillaDisponible = [];
                                 this.monster.anims.pause();
                                 this.audio1.pause();
+                                this.recTemp.forEach(rectangulosTemp => {
+                                    rectangulosTemp.destroy();
+                                });
                             },
                             onUpdate: () =>{
                                 this.oscuroFondo.setX(this.monster.x);
@@ -109,7 +117,8 @@ export class Monstruo{
                 }
             });
 
-            
+            this.recTemp.push(rectangulo2);
+            this.recTemp.push(rectangulo);
 
             
            

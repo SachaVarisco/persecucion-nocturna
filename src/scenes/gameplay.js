@@ -17,8 +17,8 @@ export class gameplay extends Phaser.Scene{
     cuevas;
     gameOver = false;
     victory = false;
-    monstermov = 12;
-    spiritmov = 0;
+    monstermov;
+    spiritmov;
     
     scoreTime;
     scoreTimeText;
@@ -26,6 +26,9 @@ export class gameplay extends Phaser.Scene{
     energiaText;
     energiaSText;
     energiaSpirit = 5;
+
+    spirit;
+    monster;
 
 
     constructor()
@@ -39,7 +42,9 @@ export class gameplay extends Phaser.Scene{
     
 
     create() {
-		
+		this.turno = 0;
+        this.monstermov = 12;
+        this.spiritmov = 0;
         
         let audio2 = this.sound.add('select', {loop:false});
         let audio3 = this.sound.add('intro', {loop:true});
@@ -87,8 +92,8 @@ export class gameplay extends Phaser.Scene{
 
        
 
-        const spirit = new Espiritu(this);
-		const monster = new Monstruo(this);
+        this.spirit = new Espiritu(this);
+		this.monster = new Monstruo(this);
 
         
 		
@@ -98,22 +103,21 @@ export class gameplay extends Phaser.Scene{
         this.add.image(1200, 70, "timer");
         
 
-        this.scoreTime = 180;
+        this.scoreTime = 60;
         this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
           fontSize: "70px",
           fill: "#000",
         });
+
         this.add.image(600, 70, "energia");
-       
-		if (this.monstermov > 0) {
+        if (this.monstermov > 0) {
             this.energiaText = this.add.text(650, 40, this.monstermov, {
            
                 fontSize: "90px",
                 fill: "#000",
             });
         }
-       
-       
+        
 
     }
    
@@ -132,11 +136,25 @@ export class gameplay extends Phaser.Scene{
             return
         }
 
+        if (this.turno == 0) {
+            this.energiaText.text = this.monstermov.toString();
+        }else{
+            this.energiaText.text = this.spiritmov.toString();
+        }
 
         if (this.monstermov == 0 && this.spiritmov == 0) {
-            
+            this.spirit.update();
 			this.turno = 1;
-            this.spiritmov = 7;  
+            this.spiritmov = 7; 
+            console.log(this.spiritmov);
+            this.scoreTimeText.destroy();
+            this.scoreTime = 15;
+            this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
+                fontSize: "70px",
+                fill: "#000",
+            });
+            
+
             this.energiaSpirit = 5;
             this.energiaText.destroy();
             this.energiaText = this.add.text(650, 40, "6", {
@@ -147,10 +165,20 @@ export class gameplay extends Phaser.Scene{
         }
         
         if (this.spiritmov == 1) {
+            this.monster.update();
 			this.turno = 0;
 
             this.monstermov = 12;
-            this.spiritmov = 0;   
+            this.spiritmov = 0; 
+            
+            this.scoreTimeText.destroy();
+            this.scoreTime = 15;
+            this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
+                fontSize: "70px",
+                fill: "#000",
+            });
+
+
             this.energiaText.destroy();
             this.energiaText = this.add.text(650, 40, this.monstermov, {
                 fontSize: "90px",
@@ -158,9 +186,9 @@ export class gameplay extends Phaser.Scene{
             });
         }
         
-        this.oscuroFondo = (this.turno == 0);
+        //this.oscuroFondo = (this.turno == 0);
        
-
+        
     
         
     }
@@ -175,6 +203,13 @@ export class gameplay extends Phaser.Scene{
                   "gameover",
                 );
          }            
+        }
+    }
+    cambioDeTurno(){
+        if (this.monstermov > 0) {
+            this.monstermov = 0
+        } else if( this.spiritmov > 1) {
+            this.spiritmov = 1
         }
     }
 }
