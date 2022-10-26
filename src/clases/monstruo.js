@@ -6,6 +6,8 @@ export class Monstruo{
     oscuroFondo;
     audio1;
     recTemp;
+    casillasMarcada;
+    mar;
     constructor(scene){
         this.scene = scene;
         this.init();
@@ -16,11 +18,13 @@ export class Monstruo{
         
         this.monster = this.scene.physics.add
         .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
-        .setCircle(120, -60, -40);
+        .setCircle(120, -60, -40)
+        .setDepth(2);
 
         this.oscuroFondo = this.scene.add
         .image(this.monster.x, this.monster.y, "luz")
-        .setOrigin(0.495,0.5);
+        .setOrigin(0.495,0.5)
+        .setDepth(2);
 
         
         this.audio1 = this.scene.sound.add('pasos');
@@ -29,6 +33,7 @@ export class Monstruo{
 
         this.recTemp = [];
         this.casillaDisponible = [];
+        this.casillasMarcada = [];
 
     
 
@@ -58,6 +63,9 @@ export class Monstruo{
     }
     comprobarCasillas()
     {
+        this.casillasMarcada.forEach(marca => {
+            marca.destroy();
+        });
         this.scene.casillas.forEach((casilla) => {
             
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
@@ -70,6 +78,11 @@ export class Monstruo{
                     casillaDisponibleIn = true;
                 }
             });
+            if (casillaDisponibleIn) {
+                this.casillasMarcada.push(
+                    this.mar = this.scene.add.image(casilla.x, casilla.y, "marca").setDepth(1).setOrigin(1.5,0.5)
+                );
+            }
 
             rectangulo2.setInteractive().on("pointerdown", () => {    
                 if (casillaDisponibleIn) {
@@ -93,6 +106,7 @@ export class Monstruo{
                                 this.recTemp.forEach(rectangulosTemp => {
                                     rectangulosTemp.destroy();
                                 });
+                               // this.mar.visible = true;
                             },
 
                             //Se ejecuta durante el movimiento
@@ -103,6 +117,7 @@ export class Monstruo{
                             onStart: () => {
                                 this.monster.anims.play("monstruocamina", true);
                                 this.audio1.play();
+                               // this.mar.visible = false;
                                 
                             },
                             

@@ -17,8 +17,8 @@ export class gameplay extends Phaser.Scene{
     spawnPoint2;
     casillas;
     cuevas;
-    gameOver = false;
-    victory = false;
+    gameOver;
+    victory;
     monstermov;
     spiritmov;
     spiritmov1 = 0;
@@ -51,6 +51,8 @@ export class gameplay extends Phaser.Scene{
     
 
     create() {
+        this.victory = false;
+        this.gameover = false;
 		this.turno = 0;
         this.monstermov = 12;
         this.spiritmov = 0;
@@ -105,8 +107,8 @@ export class gameplay extends Phaser.Scene{
 		this.monster = new Monstruo(this);
 
         this.physics.add.overlap(
-            this.monster,
-            this.spirit, 
+            this.monster.monster,
+            this.spirit.spirit, 
              (mos) => { this.gameOver = true
                 console.log("anda")
                 // this.audio3.pause()
@@ -114,39 +116,39 @@ export class gameplay extends Phaser.Scene{
 
         
 		
-     this.cartel = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Turno").setInteractive().on("pointerdown", ()=> this.Quitar());
+     this.cartel = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Turno").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(4);
         this.cartel.visible = false
-     this.pausar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "fondoPausa");
+     this.pausar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "fondoPausa").setDepth(5);
         this.pausar.visible = false
-     this.salir = this.add.image(this.cameras.main.centerX, 560, "salir").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu"), /*audio3.pause()*/);
+     this.salir = this.add.image(this.cameras.main.centerX, 560, "salir").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu"), /*audio3.pause()*/).setDepth(5);
         this.salir.visible = false
-     this.reanudar = this.add.image(this.cameras.main.centerX, 300, "reanudar").setInteractive().on("pointerdown", ()=> this.Quitar());
+     this.reanudar = this.add.image(this.cameras.main.centerX, 300, "reanudar").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(5);
         this.reanudar.visible = false
      
         
 
 
-		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.Pausa());
-        this.add.image(1200, 70, "timer");
+		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.Pausa()).setDepth(3);
+        this.add.image(1200, 70, "timer").setDepth(6);
         
 
         this.scoreTime = 40;
         this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
           fontSize: "70px",
           fill: "#000",
-        });
+        }).setDepth(7);
 
-        this.add.image(600, 70, "energia");
+        this.add.image(600, 70, "energia").setDepth(6);
         if (this.monstermov > 0) {
             this.energiaText = this.add.text(650, 40, this.monstermov, {
            
                 fontSize: "90px",
                 fill: "#000",
-            });
+            }).setDepth(7);
         }
 
-        this.tutomons = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoMons").setInteractive().on("pointerdown", ()=> this.Quitar());
-        this.tutospi = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.Quitar());
+        this.tutomons = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoMons").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
+        this.tutospi = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
         this.tutospi.visible = false;
 
     }
@@ -154,7 +156,7 @@ export class gameplay extends Phaser.Scene{
     update() {
 
         if (this.gameOver == true) {
-            this.spirit.anims.play("espiritumuerto", true);
+            this.spirit.spirit.anims.play("espiritumuerto", true);
             setTimeout(() => {
                 this.scene.start("gameover")
               }, 2000);
@@ -193,13 +195,13 @@ export class gameplay extends Phaser.Scene{
             this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
                 fontSize: "70px",
                 fill: "#000",
-            });
+            }).setDepth(7);
             
             this.energiaText.destroy();
             this.energiaText = this.add.text(650, 40, this.spiritmov1, {
                 fontSize: "90px",
                 fill: "#000",
-            });
+            }).setDepth(7);
            
         }
         
@@ -221,14 +223,14 @@ export class gameplay extends Phaser.Scene{
             this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
                 fontSize: "70px",
                 fill: "#000",
-            });
+            }).setDepth(7);
 
 
             this.energiaText.destroy();
             this.energiaText = this.add.text(650, 40, this.monstermov, {
                 fontSize: "90px",
                 fill: "#000",
-            });
+            }).setDepth(7);
         }
         
         
@@ -244,7 +246,7 @@ export class gameplay extends Phaser.Scene{
         if (! this.gameOver)
         {       
             this.scoreTime = this.scoreTime - this.pausa;
-            this.scoreTimeText.setText(this.scoreTime);
+            this.scoreTimeText.setText(this.scoreTime).setDepth(7);
             if (this.scoreTime == 0 && this.monstermov > 0) {
                 this.monstermov = 0;
             } else if (this.scoreTime == 0 && this.spiritmov > 1) {

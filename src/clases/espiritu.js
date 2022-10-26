@@ -6,6 +6,7 @@ export class Espiritu{
     audio1;
     salida2;
     recTemp;
+    casillasMarcada;
     constructor(scene){
         this.scene = scene;
         this.init();
@@ -18,13 +19,15 @@ export class Espiritu{
         this.spirit = this.scene.physics.add
         .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
         .setCircle(110, -60, -40)
-        .setOrigin(0.30, 0.5);
+        .setOrigin(0.30, 0.5)
+        .setDepth(2);
         this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.8
        
         //creo arrays
         this.recTemp = [];
         this.casillaspirit = [];
+        this.casillasMarcada = [];
 
         //Creo los rectangulos con los que va a interactuar el espiritu
         this.scene.casillas.forEach((casilla) => {
@@ -61,8 +64,12 @@ export class Espiritu{
 
     //funcion para obligar a que se guarden las casilas 
     comprobarCasillas() {
+        this.casillasMarcada.forEach(marca => {
+            marca.destroy();
+        });
         this.scene.casillas.forEach((casilla) => {
 
+            
             //le agrego hitbox a las casillas
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
@@ -76,11 +83,16 @@ export class Espiritu{
                     
                 }
             });
-
+            if (casillaspiritIn) {
+                this.casillasMarcada.push(
+                    this.scene.add.image(casilla.x, casilla.y, "marca").setDepth(1).setOrigin(1.5,0.5)
+                );
+            }
             //le agrego la interactividad a las casillas
             rectangulo2.setInteractive().on("pointerdown", () => {
                 
                 if (casillaspiritIn) {
+                   
                     // Movimiento de personaje
                     if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
                         
