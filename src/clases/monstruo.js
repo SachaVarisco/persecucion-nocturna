@@ -11,14 +11,6 @@ export class Monstruo{
         this.init();
     }
     
-    
-        
-      //  if (this.scene.turno == 0) {
-      //      this.oscuroFondo.visible = true;
-      //  } else {
-      //      this.oscuroFondo.visible = false;
-     //  }
-    
 
     init(){
         
@@ -37,6 +29,7 @@ export class Monstruo{
 
         this.recTemp = [];
         this.casillaDisponible = [];
+
     
 
         this.scene.casillas.forEach((casilla) => {
@@ -101,6 +94,8 @@ export class Monstruo{
                                     rectangulosTemp.destroy();
                                 });
                             },
+
+                            //Se ejecuta durante el movimiento
                             onUpdate: () =>{
                                 this.oscuroFondo.setX(this.monster.x);
                                 this.oscuroFondo.setY(this.monster.y);
@@ -122,13 +117,7 @@ export class Monstruo{
 
             
            
-            this.scene.physics.add.overlap(
-                this.monster,
-                this.scene.spirit, 
-                 (mos) => { this.scene.gameOver = true
-                    this.scene.audio3.pause()
-                
-            }, null, this)
+
         },this);
     }
     

@@ -11,6 +11,8 @@ import { Espiritu } from '../clases/espiritu';
 export class gameplay extends Phaser.Scene{
 	
     turno = 0;
+    pausa = 0;
+
     spawnPoint;
     spawnPoint2;
     casillas;
@@ -19,17 +21,24 @@ export class gameplay extends Phaser.Scene{
     victory = false;
     monstermov;
     spiritmov;
+    spiritmov1 = 0;
     
     scoreTime;
     scoreTimeText;
     timedEvent;
     energiaText;
     energiaSText;
-    energiaSpirit = 5;
 
     spirit;
     monster;
 
+    reanudar;
+    salir;
+    pausar;
+
+    tutomons;
+    tutospi;
+    cartel;
 
     constructor()
 	{
@@ -95,16 +104,34 @@ export class gameplay extends Phaser.Scene{
         this.spirit = new Espiritu(this);
 		this.monster = new Monstruo(this);
 
+        this.physics.add.overlap(
+            this.monster,
+            this.spirit, 
+             (mos) => { this.gameOver = true
+                console.log("anda")
+                // this.audio3.pause()
+        }, null, this)
+
         
 		
-    
-		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu",audio3.pause(),
-        audio2.play()));
+     this.cartel = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Turno").setInteractive().on("pointerdown", ()=> this.Quitar());
+        this.cartel.visible = false
+     this.pausar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "fondoPausa");
+        this.pausar.visible = false
+     this.salir = this.add.image(this.cameras.main.centerX, 560, "salir").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu"), /*audio3.pause()*/);
+        this.salir.visible = false
+     this.reanudar = this.add.image(this.cameras.main.centerX, 300, "reanudar").setInteractive().on("pointerdown", ()=> this.Quitar());
+        this.reanudar.visible = false
+     
+        
+
+
+		this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.Pausa());
         this.add.image(1200, 70, "timer");
         
 
-        this.scoreTime = 60;
-        this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
+        this.scoreTime = 40;
+        this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
           fontSize: "70px",
           fill: "#000",
         });
@@ -117,11 +144,15 @@ export class gameplay extends Phaser.Scene{
                 fill: "#000",
             });
         }
-        
+
+        this.tutomons = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoMons").setInteractive().on("pointerdown", ()=> this.Quitar());
+        this.tutospi = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.Quitar());
+        this.tutospi.visible = false;
 
     }
    
     update() {
+
         if (this.gameOver == true) {
             this.spirit.anims.play("espiritumuerto", true);
             setTimeout(() => {
@@ -129,9 +160,10 @@ export class gameplay extends Phaser.Scene{
               }, 2000);
             return
         }
+
         if (this.victory == true) {
             setTimeout(() => {
-                this.scene.start("victory")
+                this.scene.start("victoria")
               }, 1000);
             return
         }
@@ -139,41 +171,54 @@ export class gameplay extends Phaser.Scene{
         if (this.turno == 0) {
             this.energiaText.text = this.monstermov.toString();
         }else{
-            this.energiaText.text = this.spiritmov.toString();
+            this.energiaText.text = this.spiritmov1.toString();
         }
 
         if (this.monstermov == 0 && this.spiritmov == 0) {
             this.spirit.update();
-			this.turno = 1;
-            this.spiritmov = 7; 
-            console.log(this.spiritmov);
+
+            this.pausa = 0;
+            this.tutospi.visible = true;
+
+            this.cartel.visible = true;
+
+            this.turno = 1;
+            this.spiritmov = 7;
+            this.spiritmov1 = 6; 
+
+            this.monster.oscuroFondo.visible = false;
+
             this.scoreTimeText.destroy();
-            this.scoreTime = 15;
-            this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
+            this.scoreTime = 30;
+            this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
                 fontSize: "70px",
                 fill: "#000",
             });
             
-
-            this.energiaSpirit = 5;
             this.energiaText.destroy();
-            this.energiaText = this.add.text(650, 40, "6", {
+            this.energiaText = this.add.text(650, 40, this.spiritmov1, {
                 fontSize: "90px",
                 fill: "#000",
             });
            
         }
         
-        if (this.spiritmov == 1) {
+        if (this.spiritmov == 1) { 
+            this.tutospi.destroy();
             this.monster.update();
-			this.turno = 0;
 
+            this.pausa = 0;
+            this.cartel.visible = true;
+
+            this.turno = 0;
             this.monstermov = 12;
             this.spiritmov = 0; 
+
+            this.monster.oscuroFondo.visible = true;
             
             this.scoreTimeText.destroy();
-            this.scoreTime = 15;
-            this.scoreTimeText = this.add.text(1140, 50, this.scoreTime, {
+            this.scoreTime = 40;
+            this.scoreTimeText = this.add.text(1165, 50, this.scoreTime, {
                 fontSize: "70px",
                 fill: "#000",
             });
@@ -186,30 +231,44 @@ export class gameplay extends Phaser.Scene{
             });
         }
         
-        //this.oscuroFondo = (this.turno == 0);
+        
        
         
     
         
     }
+
+
+    //Funcion para restar tiempo y pasar el turno cuando se acabe
     onSecond() {
         if (! this.gameOver)
         {       
-            this.scoreTime = this.scoreTime - 1; // One second
+            this.scoreTime = this.scoreTime - this.pausa;
             this.scoreTimeText.setText(this.scoreTime);
-            if (this.scoreTime == 0) {
-                this.timedEvent.paused = true;
-                this.scene.start(
-                  "gameover",
-                );
-         }            
+            if (this.scoreTime == 0 && this.monstermov > 0) {
+                this.monstermov = 0;
+            } else if (this.scoreTime == 0 && this.spiritmov > 1) {
+                this.spiritmov = 1;
+            }          
         }
     }
-    cambioDeTurno(){
-        if (this.monstermov > 0) {
-            this.monstermov = 0
-        } else if( this.spiritmov > 1) {
-            this.spiritmov = 1
-        }
+
+    //Funcion para pausar el juego
+    Pausa(){
+        this.pausa = 0;
+        this.reanudar.visible = true;
+        this.pausar.visible = true;
+        this.salir.visible = true;
+    }
+
+    //Funcion para despausar el juego
+    Quitar(){
+        this.pausa = 1;
+        this.cartel.visible = false;
+        this.tutomons.visible = false;
+        this.tutospi.visible = false;
+        this.reanudar.visible = false;
+        this.pausar.visible = false;
+        this.salir.visible = false;
     }
 }

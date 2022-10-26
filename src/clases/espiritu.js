@@ -13,30 +13,34 @@ export class Espiritu{
     }
    
     init(){
-        console.log(this.scene.turno);
-
+        
+        //creo el espiritu
         this.spirit = this.scene.physics.add
         .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
         .setCircle(110, -60, -40)
-        .setOrigin(0.25, 0.5);
+        .setOrigin(0.30, 0.5);
         this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.8
        
+        //creo arrays
         this.recTemp = [];
         this.casillaspirit = [];
 
+        //Creo los rectangulos con los que va a interactuar el espiritu
         this.scene.casillas.forEach((casilla) => {
             let salida = this.scene.add.rectangle(this.scene.cuevas.x, this.scene.cuevas.y, 85, 58);
             this.salida2 = this.scene.physics.add.existing(salida);
            
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
-            
+
+            //overlap marca la interaccion entre el espiritu y las casillas
             this.scene.physics.add.overlap(
                 this.spirit,
                 rectangulo2,
                 (spirit, rectangulo) => {
                     if (this.casillaspirit.indexOf(rectangulo) === -1) {
+                        //pusheo las casillas al array de casillasspirit
                         this.casillaspirit.push(rectangulo);
                         this.comprobarCasillas();
                        
@@ -49,14 +53,21 @@ export class Espiritu{
             
         },this);
     }
+
+    //Agrego una función que va a llamarse en el update del gameplay
     update(){
         this.comprobarCasillas();
     }
+
+    //funcion para obligar a que se guarden las casilas 
     comprobarCasillas() {
         this.scene.casillas.forEach((casilla) => {
+
+            //le agrego hitbox a las casillas
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
 
+            //variable para corroborar la posicion de las casillas
             let casillaspiritIn = false
             this.casillaspirit.forEach(c => {
                 if (c.x == casilla.x && c.y == casilla.y)
@@ -66,11 +77,11 @@ export class Espiritu{
                 }
             });
 
-
+            //le agrego la interactividad a las casillas
             rectangulo2.setInteractive().on("pointerdown", () => {
-                console.log("aaaaa");
+                
                 if (casillaspiritIn) {
-                    
+                    // Movimiento de personaje
                     if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
                         
                         this.scene.tweens.add({
@@ -83,19 +94,20 @@ export class Espiritu{
                             x: rectangulo2.body.position.x,
                             y: rectangulo2.body.position.y,
     
-                        
+                            //se ejecuta al final del tween
                             onComplete: () => {
                                 this.casillaspirit = [];
                                 this.spirit.anims.pause();
                                 this.scene.spiritmov --;
-                                console.log(this.scene.spiritmov);
+                                this.scene.spiritmov1 --;
                                 this.audio1.pause();  
+                                //destruyo las casillas viejas
                                 this.recTemp.forEach(rectangulosTemp => {
                                     rectangulosTemp.destroy();
                                 });
     
                             },
-                            
+                            //se ejecuta al pricipio del tween
                             onStart: () => {
                                 this.spirit.anims.play("espiritucamina", true);
                                 this.audio1.play();
@@ -104,17 +116,17 @@ export class Espiritu{
                     }
                 }
             });
-            
+            //puseho las casillas al array de recTemp
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
 
+            //overlap entre el espiritu y la cueva
             this.scene.physics.add.overlap(
                 this.spirit,
                 this.salida2, 
                 (spi) => { this.scene.victory = true
-                    this.scene.audio3.pause()
-                
-            }, null, this)
+                    //this.scene.audio3.pause();
+                }, null, this)
 
 
         },this);
