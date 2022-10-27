@@ -103,7 +103,9 @@ export class Espiritu{
                         if (casilla.properties) {
                             let soundProp = casilla.properties.find(p => p.name == "sound")
                             if (soundProp) {
-                                console.log("suena: " + soundProp.value)
+                                if (soundProp.value == "bosque") {
+                                    //sonido de bosque
+                                }
                             }
                             
                         }
