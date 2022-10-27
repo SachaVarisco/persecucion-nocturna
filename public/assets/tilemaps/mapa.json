@@ -129,6 +129,12 @@
                  "id":7,
                  "name":"63",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"tronco"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -165,6 +171,12 @@
                  "id":10,
                  "name":"60",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"tronco"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -261,6 +273,12 @@
                  "id":18,
                  "name":"52",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"ojo"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -357,6 +375,12 @@
                  "id":28,
                  "name":"44",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"ojo"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -369,11 +393,17 @@
                  "id":29,
                  "name":"43",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"tortuga"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
                  "width":0,
-                 "x":707.898845113611,
+                 "x":695.898845113611,
                  "y":301.988523837861
                 }, 
                 {
@@ -501,6 +531,12 @@
                  "id":40,
                  "name":"32",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"cuack"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -525,6 +561,12 @@
                  "id":42,
                  "name":"30",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"cuack"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -705,6 +747,12 @@
                  "id":57,
                  "name":"15",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"craneo"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -717,12 +765,18 @@
                  "id":58,
                  "name":"14",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"bosque"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
                  "width":0,
-                 "x":1530.87454155949,
-                 "y":951.992799659236
+                 "x":1522.87454155949,
+                 "y":946.659466325903
                 }, 
                 {
                  "height":0,
@@ -733,8 +787,8 @@
                  "type":"casilla",
                  "visible":true,
                  "width":0,
-                 "x":1660.05062075641,
-                 "y":951.630329307266
+                 "x":1649.38395408974,
+                 "y":950.296995973933
                 }, 
                 {
                  "height":0,
@@ -765,6 +819,12 @@
                  "id":62,
                  "name":"11",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"bosque"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -862,6 +922,12 @@
                  "id":70,
                  "name":"3",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"sound",
+                         "type":"string",
+                         "value":"craneo"
+                        }],
                  "rotation":0,
                  "type":"casilla",
                  "visible":true,
@@ -945,7 +1011,7 @@
         {
          "columns":60,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/persecuci\u00f3n nocturna\/persecucion-nocturna\/public\/assets\/images\/spritesheet.png",
+         "image":"..\/images\/spritesheet.png",
          "imageheight":1080,
          "imagewidth":1920,
          "margin":0,

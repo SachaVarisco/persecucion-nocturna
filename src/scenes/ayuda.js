@@ -9,6 +9,6 @@ export class ayuda extends Phaser.Scene{
         
         this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "ayuda");
    
-        this.add.image(1800, 70, "pausa").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu", audio2.play()));
+        this.add.image(1000, 960, "volvermenu").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu", audio2.play()));
     }
 }

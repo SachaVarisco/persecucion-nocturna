@@ -59,7 +59,10 @@ export class Monstruo{
     }
 
     update(){
-        this.comprobarCasillas();
+        this.casillasMarcada.forEach(casilla => {
+            //ternaria: es como un if pero de una sola linea
+            casilla.alpha = (!this.monster.anims.isPlaying) ? 1 : 0;
+        });
     }
     comprobarCasillas()
     {
@@ -117,6 +120,7 @@ export class Monstruo{
                             onStart: () => {
                                 this.monster.anims.play("monstruocamina", true);
                                 this.audio1.play();
+                                
                                // this.mar.visible = false;
                                 
                             },
@@ -134,6 +138,11 @@ export class Monstruo{
            
 
         },this);
+    }
+    romper(){
+        this.casillasMarcada.forEach(marca => {
+            marca.destroy();
+        });
     }
     
 }

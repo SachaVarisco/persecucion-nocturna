@@ -59,7 +59,10 @@ export class Espiritu{
 
     //Agrego una función que va a llamarse en el update del gameplay
     update(){
-        this.comprobarCasillas();
+        this.casillasMarcada.forEach(casilla => {
+            //ternaria: es como un if pero de una sola linea
+            casilla.alpha = (!this.spirit.anims.isPlaying) ? 1 : 0;
+        });
     }
 
     //funcion para obligar a que se guarden las casilas 
@@ -90,12 +93,21 @@ export class Espiritu{
             }
             //le agrego la interactividad a las casillas
             rectangulo2.setInteractive().on("pointerdown", () => {
+        
                 
                 if (casillaspiritIn) {
                    
                     // Movimiento de personaje
                     if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
                         
+                        if (casilla.properties) {
+                            let soundProp = casilla.properties.find(p => p.name == "sound")
+                            if (soundProp) {
+                                console.log("suena: " + soundProp.value)
+                            }
+                            
+                        }
+
                         this.scene.tweens.add({
                             targets: this.spirit,
                             alpha: 1,
@@ -123,6 +135,7 @@ export class Espiritu{
                             onStart: () => {
                                 this.spirit.anims.play("espiritucamina", true);
                                 this.audio1.play();
+                                
                             },
                         });
                     }

@@ -95,6 +95,7 @@ export class gameplay extends Phaser.Scene{
             "objetos",
             (obj) => obj.type === "casilla"
         );
+        console.log(this.casillas)
 
         this.cuevas = map.findObject(
             "objetos", 
@@ -170,14 +171,18 @@ export class gameplay extends Phaser.Scene{
             return
         }
 
+        this.monster.update();
+        this.spirit.update();
+
         if (this.turno == 0) {
             this.energiaText.text = this.monstermov.toString();
         }else{
             this.energiaText.text = this.spiritmov1.toString();
+            this.monster.romper();
         }
 
         if (this.monstermov == 0 && this.spiritmov == 0) {
-            this.spirit.update();
+            this.spirit.comprobarCasillas();
 
             this.pausa = 0;
             this.tutospi.visible = true;
@@ -207,7 +212,8 @@ export class gameplay extends Phaser.Scene{
         
         if (this.spiritmov == 1) { 
             this.tutospi.destroy();
-            this.monster.update();
+            this.monster.comprobarCasillas();
+
 
             this.pausa = 0;
             this.cartel.visible = true;
