@@ -64,7 +64,7 @@ export class gameplay extends Phaser.Scene{
 
     create() {
         this.victory = false;
-        this.gameover = false;
+        this.gameOver = false;
 		this.turno = 0;
         this.monstermov = 12;
         this.spiritmov = 0;
@@ -91,7 +91,7 @@ export class gameplay extends Phaser.Scene{
         const belowLayer = map.createLayer("mapa", tilesetBelow, 0, 0);
         const objectsLayer = map.getObjectLayer("objetos");
 
-       // this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Colision").setDepth(8);
+ 
         
 
         this.spawnPoint = map.findObject(
@@ -257,27 +257,27 @@ export class gameplay extends Phaser.Scene{
             }).setDepth(7);
 
             if (this.spirit.bosque == true) {
-                this.Alert.setX(1600).setY(900)
+                this.Alert.setX(1600).setY(800)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.bosque = false}, 5000);
             }else if(this.spirit.cuack == true){
-                this.Alert.setX(1000).setY(900)
+                this.Alert.setX(800).setY(750)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.cuack = false}, 5000);
             }else if(this.spirit.craneo == true){
-                this.Alert.setX(1600).setY(300)
+                this.Alert.setX(1400).setY(400)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.craneo = false}, 5000);
             }else if(this.spirit.tortuga == true){
-                this.Alert.setX(1000).setY(300)
+                this.Alert.setX(800).setY(400)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.tortuga = false}, 5000);
             }else if(this.spirit.ojo == true){
-                this.Alert.setX(400).setY(300)
+                this.Alert.setX(400).setY(400)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.ojo = false}, 5000);
             }else if(this.spirit.tronco == true){
-                this.Alert.setX(400).setY(900)
+                this.Alert.setX(400).setY(840)
                 this.Alert.visible = true
                 setTimeout(() => {this.Alert.visible = false, this.spirit.tronco= false}, 5000);
             }

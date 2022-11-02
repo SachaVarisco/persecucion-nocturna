@@ -27,6 +27,8 @@ export class MainMenu extends Phaser.Scene {
     }
   
 	create() {
+	
+
 	  let audio1 = this.sound.add('intro', {loop:true});
 	  audio1.play();
 	  let audio2 = this.sound.add('select', {loop:false});
