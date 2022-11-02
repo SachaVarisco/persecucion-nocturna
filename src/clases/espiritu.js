@@ -109,7 +109,7 @@ export class Espiritu{
                    
                     // Movimiento de personaje
                     if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
-                        //si las casillas tienen una propiedad entre al if
+                        //si las casillas tienen una propiedad entra al if
                         if (casilla.properties) {
                             //especifico la propiedad que va a buscar
                             let soundProp = casilla.properties.find(p => p.name == "sound")
@@ -141,7 +141,7 @@ export class Espiritu{
                             x: rectangulo2.body.position.x,
                             y: rectangulo2.body.position.y,
     
-                            //se ejecuta al final del tween
+                            //se ejecuta al final del movimiento
                             onComplete: () => {
                                 this.casillaspirit = [];
                                 this.spirit.anims.pause();
@@ -154,7 +154,7 @@ export class Espiritu{
                                 });
     
                             },
-                            //se ejecuta al pricipio del tween
+                            //se ejecuta al pricipio del movimiento
                             onStart: () => {
                                 this.spirit.anims.play("espiritucamina", true);
                                 this.audio1.play();

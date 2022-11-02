@@ -36,7 +36,7 @@ export function getPhrase(key) {
 }
 
 function isAllowedLanguge(language) {
-    const allowedLanguages = [ES_AR, EN_US, PT_BR, DE_DE];
+    const allowedLanguages = [ES_AR, EN_US, PT_BR];
     return allowedLanguages.includes(language);
 }
 
