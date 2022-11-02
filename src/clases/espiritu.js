@@ -47,13 +47,13 @@ export class Espiritu{
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
 
-            //overlap marca la interaccion entre el espiritu y las casillas
+            //Overlap marca la interaccion entre el espiritu y las casillas
             this.scene.physics.add.overlap(
                 this.spirit,
                 rectangulo2,
                 (spirit, rectangulo) => {
                     if (this.casillaspirit.indexOf(rectangulo) === -1) {
-                        //pusheo las casillas al array de casillasspirit
+                        //Pusheo las casillas al array de casillasspirit
                         this.casillaspirit.push(rectangulo);
                         this.comprobarCasillas();
                        
@@ -70,12 +70,12 @@ export class Espiritu{
     //Agrego una función que va a llamarse en el update del gameplay
     update(){
         this.casillasMarcada.forEach(casilla => {
-            //ternaria: es como un if pero de una sola linea
+            //Ternaria: es como un if pero de una sola linea
             casilla.alpha = (!this.spirit.anims.isPlaying) ? 1 : 0;
         });
     }
 
-    //funcion para obligar a que se guarden las casilas 
+    //Funcion para obligar a que se guarden las casilas 
     comprobarCasillas() {
         this.casillasMarcada.forEach(marca => {
             marca.destroy();
@@ -109,28 +109,23 @@ export class Espiritu{
                    
                     // Movimiento de personaje
                     if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
-                        
+                        //si las casillas tienen una propiedad entre al if
                         if (casilla.properties) {
+                            //especifico la propiedad que va a buscar
                             let soundProp = casilla.properties.find(p => p.name == "sound")
                             if (soundProp) {
                                 if (soundProp.value == "bosque") {
                                     this.bosque = true;
-                                    //sonido de bosque
                                 } else if (soundProp.value == "cuack") {
                                     this.cuack = true;
-                                    //sonido de cuack
                                 } else if (soundProp.value == "tronco") {
                                     this.tronco = true;
-                                    //sonido de trondo
                                 }else if (soundProp.value == "ojo") {
                                     this.ojo =true;
-                                    //sonido de ojo
                                 }else if (soundProp.value == "craneo") {
                                     this.craneo = true;
-                                    //sonido de craneo
                                 }else if(soundProp.value == "tortuga"){
                                     this.tortuga = true;
-                                    //sonido de tortuga
                                 }
 
                             }
@@ -169,7 +164,7 @@ export class Espiritu{
                     }
                 }
             });
-            //pusheo las casillas al array de recTemp
+            //Pusheo las casillas al array de recTemp
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
 
