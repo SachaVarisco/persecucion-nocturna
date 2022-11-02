@@ -1,4 +1,9 @@
 import Phaser from 'phaser'
+import { EN_US, ES_AR, PT_BR } from '../enums/lenguages'
+import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
+import { getTranslations, getPhrase } from '../services/translations'
+import keys from '../enums/key'
+
 import { victoria } from './victory';
 import { gameover } from './gameover';
 import { Monstruo } from '../clases/monstruo';
@@ -37,12 +42,19 @@ export class gameplay extends Phaser.Scene{
     pausar;
 
     tutomons;
+    tutomonsTag;
+    tutomonsTxt;
     tutospi;
     cartel;
+    Alert;
+
+    audio3;
 
     constructor()
 	{
 		super('gameplay')
+        const{ mama } = keys.scenegameplay;
+        this.mama = mama;
 	}
 	preload() {
         this.load.tilemapTiledJSON("map", "assets/tilemaps/mapa.json");
@@ -58,9 +70,9 @@ export class gameplay extends Phaser.Scene{
         this.spiritmov = 0;
         
         let audio2 = this.sound.add('select', {loop:false});
-        let audio3 = this.sound.add('intro', {loop:true});
-        audio3.play();
-        audio3.volume -= 0.7
+        this.audio3 = this.sound.add('intro', {loop:true});
+        this.audio3.play();
+        this.audio3.volume -= 0.7
     
     
         this.timedEvent = this.time.addEvent({ 
@@ -78,6 +90,8 @@ export class gameplay extends Phaser.Scene{
 
         const belowLayer = map.createLayer("mapa", tilesetBelow, 0, 0);
         const objectsLayer = map.getObjectLayer("objetos");
+
+       // this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Colision").setDepth(8);
         
 
         this.spawnPoint = map.findObject(
@@ -111,7 +125,6 @@ export class gameplay extends Phaser.Scene{
             this.monster.monster,
             this.spirit.spirit, 
              (mos) => { this.gameOver = true
-                console.log("anda")
                 // this.audio3.pause()
         }, null, this)
 
@@ -121,7 +134,7 @@ export class gameplay extends Phaser.Scene{
         this.cartel.visible = false
      this.pausar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "fondoPausa").setDepth(5);
         this.pausar.visible = false
-     this.salir = this.add.image(this.cameras.main.centerX, 560, "salir").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu"), /*audio3.pause()*/).setDepth(5);
+     this.salir = this.add.image(this.cameras.main.centerX, 560, "salir").setInteractive().on("pointerdown", ()=>this.scene.start("MainMenu", this.audio3.pause())).setDepth(5);
         this.salir.visible = false
      this.reanudar = this.add.image(this.cameras.main.centerX, 300, "reanudar").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(5);
         this.reanudar.visible = false
@@ -149,9 +162,14 @@ export class gameplay extends Phaser.Scene{
         }
 
         this.tutomons = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoMons").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
+        this.tutomonsTag = this.add.text(530, 350, getPhrase(this.mama), {fontSize: "60px", fill: "#000",}).setDepth(9)
         this.tutospi = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
         this.tutospi.visible = false;
+        
+        
 
+        this.Alert = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Alerta").setScale(0.5).setDepth(3);
+        this.Alert.visible = false;
     }
    
     update() {
@@ -170,7 +188,7 @@ export class gameplay extends Phaser.Scene{
               }, 1000);
             return
         }
-
+        //Llamo a los update de cada personaje
         this.monster.update();
         this.spirit.update();
 
@@ -237,6 +255,33 @@ export class gameplay extends Phaser.Scene{
                 fontSize: "90px",
                 fill: "#000",
             }).setDepth(7);
+
+            if (this.spirit.bosque == true) {
+                this.Alert.setX(1600).setY(900)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.bosque = false}, 5000);
+            }else if(this.spirit.cuack == true){
+                this.Alert.setX(1000).setY(900)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.cuack = false}, 5000);
+            }else if(this.spirit.craneo == true){
+                this.Alert.setX(1600).setY(300)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.craneo = false}, 5000);
+            }else if(this.spirit.tortuga == true){
+                this.Alert.setX(1000).setY(300)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.tortuga = false}, 5000);
+            }else if(this.spirit.ojo == true){
+                this.Alert.setX(400).setY(300)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.ojo = false}, 5000);
+            }else if(this.spirit.tronco == true){
+                this.Alert.setX(400).setY(900)
+                this.Alert.visible = true
+                setTimeout(() => {this.Alert.visible = false, this.spirit.tronco= false}, 5000);
+            }
+
         }
         
         
@@ -278,5 +323,6 @@ export class gameplay extends Phaser.Scene{
         this.reanudar.visible = false;
         this.pausar.visible = false;
         this.salir.visible = false;
+        this.tutomonsTag.visible = false;
     }
 }

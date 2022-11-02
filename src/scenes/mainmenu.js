@@ -1,9 +1,30 @@
+import Phaser from 'phaser'
+import { EN_US, ES_AR, PT_BR } from '../enums/lenguages'
+import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
+import { getTranslations, getPhrase } from '../services/translations'
+import keys from '../enums/key'
 
 export class MainMenu extends Phaser.Scene {
+
+	#textSpanish;
+    #textGerman;
+    #textEnglish;
+    #textPortuguese;
+
+	#updatedTextInScene;
+	#updatedString = 'Siguiente'
+    #wasChangedLanguage = TODO
+
 	constructor() {
 	  super("MainMenu");
+		const { next } = keys.sceneInitialMenu;
+		this.#updatedString = next;
+
 	}
-  
+	
+	init({ language }){
+        this.language = language;
+    }
   
 	create() {
 	  let audio1 = this.sound.add('intro', {loop:true});
@@ -27,7 +48,24 @@ export class MainMenu extends Phaser.Scene {
 	  audio1.pause(),
 	  audio2.play(),
 	  ));;
-  
+
+		const BotonEspañol = this.add.image(700, 1000, "ARG")
+		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+			this.getTranslations(ES_AR)
+		})
+		.setScale(0.3);
+		
+		const BotonBrasil = this.add.image(850, 1000, "BRS")
+		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+			this.getTranslations(PT_BR)
+		})
+		.setScale(0.27);
+
+		const BotonEEUU = this.add.image(1000, 1000, "EEUU")
+		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+			  this.getTranslations(EN_US)
+		  })
+		  .setScale(0.3);
   
 	}
   }

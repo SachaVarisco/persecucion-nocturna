@@ -25,9 +25,15 @@ export  class preload extends Phaser.Scene {
 	  this.load.image("ayuda", "assets/images/pantallaayuda.png");
 	  this.load.image("creditosP", "assets/images/pantallacreditos.png");
 	  this.load.image("marca", "assets/images/Marca.png");
-	  this.load.image("TutoMons", "assets/images/TutorialMonstruo.png");
+	  this.load.image("TutoMons", "assets/images/TutorialMonstruo1.png");
 	  this.load.image("TutoSpi", "assets/images/TutorialEspíritu.png");
 	  this.load.image("Turno", "assets/images/turnos.png");
+	  this.load.image("Alerta", "assets/images/Alerta.png");
+
+	  this.load.image("ARG", "assets/images/IconoArgentina.png");
+	  this.load.image("EEUU", "assets/images/EEUUIcono.png");
+	  this.load.image("BRS", "assets/images/BrasilIcono.png");
+	 // this.load.image("Colision", "assets/images/ColisiónLuz.png");
 	  this.load.spritesheet("espiritu", "assets/images/ConejoTileset.png", {frameWidth: 84,
 		frameHeight: 116,})
 		this.load.spritesheet("espiritumuerto", "assets/images/ConejoCongelado.png", {frameWidth: 84,

@@ -3,10 +3,21 @@ export class Espiritu{
     spirit;
     movimientos;
     casillaspirit;
+
     audio1;
+
     salida2;
     recTemp;
+
     casillasMarcada;
+    cuack = false;
+    bosque = false;
+    craneo = false;
+    tronco = false;
+    tortuga = false;
+    ojo = false;
+    
+
     constructor(scene){
         this.scene = scene;
         this.init();
@@ -19,7 +30,6 @@ export class Espiritu{
         this.spirit = this.scene.physics.add
         .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
         .setCircle(110, -60, -40)
-        .setOrigin(0.30, 0.5)
         .setDepth(2);
         this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.8
@@ -104,10 +114,26 @@ export class Espiritu{
                             let soundProp = casilla.properties.find(p => p.name == "sound")
                             if (soundProp) {
                                 if (soundProp.value == "bosque") {
+                                    this.bosque = true;
                                     //sonido de bosque
+                                } else if (soundProp.value == "cuack") {
+                                    this.cuack = true;
+                                    //sonido de cuack
+                                } else if (soundProp.value == "tronco") {
+                                    this.tronco = true;
+                                    //sonido de trondo
+                                }else if (soundProp.value == "ojo") {
+                                    this.ojo =true;
+                                    //sonido de ojo
+                                }else if (soundProp.value == "craneo") {
+                                    this.craneo = true;
+                                    //sonido de craneo
+                                }else if(soundProp.value == "tortuga"){
+                                    this.tortuga = true;
+                                    //sonido de tortuga
                                 }
+
                             }
-                            
                         }
 
                         this.scene.tweens.add({
@@ -143,7 +169,7 @@ export class Espiritu{
                     }
                 }
             });
-            //puseho las casillas al array de recTemp
+            //pusheo las casillas al array de recTemp
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
 
