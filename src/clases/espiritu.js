@@ -13,11 +13,6 @@ export class Espiritu{
     recTemp;
 
     casillasMarcada;
-    
-
-    
-
-    
 
     constructor(scene){
         this.scene = scene;
