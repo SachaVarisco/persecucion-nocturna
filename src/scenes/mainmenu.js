@@ -1,15 +1,13 @@
 import Phaser from 'phaser'
-import { EN_US, ES_AR, PT_BR } from '../enums/lenguages'
+import { EN_US, ES_AR } from '../enums/lenguages'
 import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
 import { getTranslations, getPhrase } from '../services/translations'
 import keys from '../enums/key'
 
 export class MainMenu extends Phaser.Scene {
-
+	#language
 	#textSpanish;
-    #textGerman;
     #textEnglish;
-    #textPortuguese;
 
 	#updatedTextInScene;
 	#updatedString = 'Siguiente'
@@ -22,8 +20,8 @@ export class MainMenu extends Phaser.Scene {
 
 	}
 	
-	init({ language }){
-        this.language = language;
+	init(data){
+        this.#language = data.language;
     }
   
 	create() {
@@ -57,12 +55,6 @@ export class MainMenu extends Phaser.Scene {
 		})
 		.setScale(0.3);
 		
-		const BotonBrasil = this.add.image(850, 1000, "BRS")
-		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
-			this.getTranslations(PT_BR)
-		})
-		.setScale(0.27);
-
 		const BotonEEUU = this.add.image(1000, 1000, "EEUU")
 		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
 			  this.getTranslations(EN_US)
@@ -70,4 +62,19 @@ export class MainMenu extends Phaser.Scene {
 		  .setScale(0.3);
   
 	}
+	updateWasChangedLanguage = () => {
+		this.#wasChangedLanguage = FETCHED;
+	}
+	async getTranslations(lang){
+		this.#language = lang;
+		this.#wasChangedLanguage = FETCHING;
+		await getTranslations(lang, )
+	}
+
+	update(){
+		
+		if(this.#wasChangedLanguage === FETCHED){
+		this.#wasChangedLanguage = READY;
+		//this.txt.setText(getPhrase('jugar'))
+	}};
   }

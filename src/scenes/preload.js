@@ -1,5 +1,8 @@
 import Phaser from 'phaser'
+import { getLanguageConfig, getTranslations } from '../services/translations';
 export  class preload extends Phaser.Scene {
+
+	#language
 	constructor() {
   
 	  super("preload");
@@ -63,9 +66,13 @@ export  class preload extends Phaser.Scene {
 		frameRate: 10,
 		repeat: -1,
 	  });
-	  
+	  getTranslations(
+		this.#language,
+		()=>this.scene.start("MainMenu",{ language: this.#language }),
+	  );
 	 
-	  this.scene.start("MainMenu");
+	  
 	}
+
   }
   

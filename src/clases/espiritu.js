@@ -1,3 +1,6 @@
+import { sharedInstance as events } from '../scenes/EventCenter'
+import {ALARM} from '../enums/data'
+
 export class Espiritu{
     scene;
     spirit;
@@ -10,12 +13,10 @@ export class Espiritu{
     recTemp;
 
     casillasMarcada;
-    cuack = false;
-    bosque = false;
-    craneo = false;
-    tronco = false;
-    tortuga = false;
-    ojo = false;
+    
+
+    
+
     
 
     constructor(scene){
@@ -113,7 +114,16 @@ export class Espiritu{
                         if (casilla.properties) {
                             //especifico la propiedad que va a buscar
                             let soundProp = casilla.properties.find(p => p.name == "sound")
+                            
+                            console.log("carga la alarma", ALARM[soundProp.value])                            
+                            const alarma = ALARM[soundProp.value];
+                            events.emit('alerta-activada', alarma)
+                            
+                            
+
                             if (soundProp) {
+                                
+                                /*
                                 if (soundProp.value == "bosque") {
                                     this.bosque = true;
                                 } else if (soundProp.value == "cuack") {
@@ -127,6 +137,7 @@ export class Espiritu{
                                 }else if(soundProp.value == "tortuga"){
                                     this.tortuga = true;
                                 }
+                                */
 
                             }
                         }
@@ -138,7 +149,7 @@ export class Espiritu{
                             duration: 1000,
                             repeat: 0, // -1: infinity
                             yoyo: false,
-                            x: rectangulo2.body.position.x,
+                            x: rectangulo2.body.position.x+20,
                             y: rectangulo2.body.position.y,
     
                             //se ejecuta al final del movimiento

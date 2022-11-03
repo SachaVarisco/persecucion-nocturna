@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { EN_US, ES_AR, PT_BR } from '../enums/lenguages'
+import { EN_US, ES_AR } from '../enums/lenguages'
 import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
 import { getTranslations, getPhrase } from '../services/translations'
 import keys from '../enums/key'
@@ -10,6 +10,7 @@ import { Monstruo } from '../clases/monstruo';
 import { Espiritu } from '../clases/espiritu';
 
 
+import { sharedInstance as events } from '../scenes/EventCenter'
 
 
 
@@ -68,6 +69,9 @@ export class gameplay extends Phaser.Scene{
 		this.turno = 0;
         this.monstermov = 12;
         this.spiritmov = 0;
+
+        this.isAlarmActive = false;
+        this.dataAlarmActive = {};
         
         let audio2 = this.sound.add('select', {loop:false});
         this.audio3 = this.sound.add('intro', {loop:true});
@@ -124,8 +128,8 @@ export class gameplay extends Phaser.Scene{
         this.physics.add.overlap(
             this.monster.monster,
             this.spirit.spirit, 
-             (mos) => { this.gameOver = true
-                // this.audio3.pause()
+             (mos) => { this.gameOver = true,
+                 this.audio3.pause()
         }, null, this)
 
         
@@ -162,7 +166,7 @@ export class gameplay extends Phaser.Scene{
         }
 
         this.tutomons = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoMons").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
-        this.tutomonsTag = this.add.text(530, 350, getPhrase(this.mama), {fontSize: "60px", fill: "#000",}).setDepth(9)
+        this.tutomonsTag = this.add.text(530, 350, getPhrase('MamaMonstruo'), {fontSize: "60px", fill: "#000",}).setDepth(9).setAngle(45)
         this.tutospi = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(8);
         this.tutospi.visible = false;
         
@@ -170,9 +174,17 @@ export class gameplay extends Phaser.Scene{
 
         this.Alert = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "Alerta").setScale(0.5).setDepth(3);
         this.Alert.visible = false;
+
+        events.on('alerta-activada', this.sonarAlarma, this)
+    }
+
+    sonarAlarma(alarma){
+        this.isAlarmActive = true
+        this.dataAlarmActive = alarma
     }
    
     update() {
+       
 
         if (this.gameOver == true) {
             this.spirit.spirit.anims.play("espiritumuerto", true);
@@ -256,30 +268,17 @@ export class gameplay extends Phaser.Scene{
                 fill: "#000",
             }).setDepth(7);
 
-            if (this.spirit.bosque == true) {
-                this.Alert.setX(1600).setY(800)
+            if ( this.isAlarmActive) {
+                console.log("entro al evento ", this.dataAlarmActive)
+                const xAlarm = this.dataAlarmActive.x
+                const yAlarm = this.dataAlarmActive.y
+        
+                this.Alert.setX(xAlarm).setY(yAlarm)
+                this.sound.play(this.dataAlarmActive.sound);
                 this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.bosque = false}, 5000);
-            }else if(this.spirit.cuack == true){
-                this.Alert.setX(800).setY(750)
-                this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.cuack = false}, 5000);
-            }else if(this.spirit.craneo == true){
-                this.Alert.setX(1400).setY(400)
-                this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.craneo = false}, 5000);
-            }else if(this.spirit.tortuga == true){
-                this.Alert.setX(800).setY(400)
-                this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.tortuga = false}, 5000);
-            }else if(this.spirit.ojo == true){
-                this.Alert.setX(400).setY(400)
-                this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.ojo = false}, 5000);
-            }else if(this.spirit.tronco == true){
-                this.Alert.setX(400).setY(840)
-                this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false, this.spirit.tronco= false}, 5000);
+                setTimeout(() => {this.Alert.visible = false}, 5000);
+    
+                this.isAlarmActive = false
             }
 
         }
