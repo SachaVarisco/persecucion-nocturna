@@ -3,32 +3,32 @@ module.exports = {
         "bosque" : {
             x: 1600,
             y: 800,
-            sound: "select"
+            sound: "alert"
         },
         "cuack" : {
             x: 800,
             y: 750,
-            sound: "select"
+            sound: "alert"
         },
         "tronco" : {
             x: 400,
             y: 840,
-            sound: "select"
+            sound: "alert"
         },
         "craneo" : {
             x: 1400,
             y: 400,
-            sound: "select"
+            sound: "alert"
         },
         "tortuga" : {
             x: 800,
             y: 400,
-            sound: "select"
+            sound: "alert"
         },
         "ojo" : {
             x: 400,
             y: 400,
-            sound: "select"
+            sound: "alert"
         },
     }
   };

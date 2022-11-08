@@ -11,14 +11,14 @@ export async function getTranslations(lang, callback) {
     if (language === ES_AR) {
         return callback ? callback() : false;
     }
-
-    return await fetch(`https://traduci-la-strapi.herokuapp.com/api/translations/${PROJECT_ID}/${language}`)
-    .then(response => response.json())
-    .then(data => {
+    const res = await fetch(`https://traduci-la-strapi.herokuapp.com/api/translations/${PROJECT_ID}/${language}`)
+    const data = await res.json()
+    const devolverDatos = () => {
         localStorage.setItem('translations', JSON.stringify(data));
-        translations = data;
+        translations = data; 
         if(callback) callback()
-    });
+    };
+    return  devolverDatos()
 }
 
 export function getPhrase(key) {
@@ -28,6 +28,7 @@ export function getPhrase(key) {
     }
 
     let phrase = key;
+
     if (translations && translations[key]) {
         phrase = translations[key];
     }

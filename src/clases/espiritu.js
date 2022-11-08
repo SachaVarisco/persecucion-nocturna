@@ -110,31 +110,11 @@ export class Espiritu{
                             //especifico la propiedad que va a buscar
                             let soundProp = casilla.properties.find(p => p.name == "sound")
                             
-                            console.log("carga la alarma", ALARM[soundProp.value])                            
+                            //console.log("carga la alarma", ALARM[soundProp.value])                            
                             const alarma = ALARM[soundProp.value];
                             events.emit('alerta-activada', alarma)
                             
                             
-
-                            if (soundProp) {
-                                
-                                /*
-                                if (soundProp.value == "bosque") {
-                                    this.bosque = true;
-                                } else if (soundProp.value == "cuack") {
-                                    this.cuack = true;
-                                } else if (soundProp.value == "tronco") {
-                                    this.tronco = true;
-                                }else if (soundProp.value == "ojo") {
-                                    this.ojo =true;
-                                }else if (soundProp.value == "craneo") {
-                                    this.craneo = true;
-                                }else if(soundProp.value == "tortuga"){
-                                    this.tortuga = true;
-                                }
-                                */
-
-                            }
                         }
 
                         this.scene.tweens.add({
