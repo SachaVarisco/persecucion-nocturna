@@ -1,7 +1,5 @@
 import Phaser from 'phaser'
-import { EN_US, ES_AR } from '../enums/lenguages'
-import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
-import { getTranslations, getPhrase } from '../services/translations'
+
 
 import { victoria } from './victory';
 import { gameover } from './gameover';
@@ -213,7 +211,7 @@ export class gameplay extends Phaser.Scene{
                 this.Alert.setX(xAlarm).setY(yAlarm)
                 this.sound.play(this.dataAlarmActive.sound);
                 this.Alert.visible = true
-                setTimeout(() => {this.Alert.visible = false}, 5000);
+                setTimeout(() => {this.Alert.visible = false}, 10000);
     
                 this.isAlarmActive = false
             }

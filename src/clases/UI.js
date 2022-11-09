@@ -1,5 +1,4 @@
-import { EN_US, ES_AR } from '../enums/lenguages'
-import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
+
 import { getTranslations, getPhrase } from '../services/translations'
 
 export class UI{
@@ -34,6 +33,8 @@ export class UI{
         this.tutomonsBye = this.scene.add.text(550,930, getPhrase('Te di 20$ para la gaseosa, buena suerte.'), {fontSize: "55px", fill: "#000", fontFamily:'Prueba2',fontStyle: 'bold'}).setDepth(9);
         this.tutomonsMarca = this.scene.add.text(550, 750, getPhrase('Toca las casillas marcadas para moverte.'), {fontSize: "50px", fill: "#000", fontFamily:'Prueba2',fontStyle: 'bold'}).setDepth(9);
         this.tutomonsEne = this.scene.add.text(550,830,getPhrase('Cada movimiento cuesta 1 de energía.'),{fontSize: "55px", fill: "#000", fontFamily:'Prueba2',fontStyle: 'bold'}).setDepth(9);
+        this.tutomonsAlert = this.scene.add.image(1710,770,"Alerta").setScale(0.7).setDepth(9);
+        this.tutoAlerTxt = this.scene.add.text(1580,810,"(" + getPhrase("Este símbolo te mostrará donde esta el espíritu.") + ")", {fontSize: "40px", fill: "#000", fontFamily:'Prueba2',fontStyle: 'bold',wordWrap: { width: 320 }}).setDepth(9);
 
         //Tutorial del espiritu
         this.tutospi = this.scene.add.image(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, "TutoSpi").setInteractive().on("pointerdown", ()=> this.QuitarSpi()).setDepth(8);
@@ -114,6 +115,8 @@ export class UI{
         this.tocaTxt.visible = false;
         this.tutomonsMarca.visible = false;
         this.tutomonsEne.visible = false;
+        this.tutomonsAlert.visible = false;
+        this.tutoAlerTxt.visible = false;
         
     }
 

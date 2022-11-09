@@ -32,7 +32,7 @@ export class MainMenu extends Phaser.Scene {
 	  audio2.play(),
 	  ));
 	  
-	  this. creditos = this.add.text(60, 910, getPhrase("Créditos"), { fontSize: "100px", fill: "#000", fontFamily:'Prueba',fontStyle: 'bold'}).setInteractive().on("pointerdown",()=>this.scene.start("creditos", 
+	  this.creditos = this.add.text(60, 910, getPhrase("Créditos"), { fontSize: "100px", fill: "#000", fontFamily:'Prueba',fontStyle: 'bold'}).setInteractive().on("pointerdown",()=>this.scene.start("creditos", 
 	  audio1.pause(),
 	  audio2.play(),
 	  ));;
