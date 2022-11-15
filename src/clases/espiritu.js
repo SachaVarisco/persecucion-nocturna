@@ -3,16 +3,7 @@ import {ALARM} from '../enums/data'
 
 export class Espiritu{
     scene;
-    spirit;
-    movimientos;
-    casillaspirit;
-
-    audio1;
-
-    salida2;
-    recTemp;
-
-    casillasMarcada;
+    
 
     constructor(scene){
         this.scene = scene;
@@ -32,7 +23,7 @@ export class Espiritu{
        
         //creo arrays
         this.recTemp = [];
-        this.casillaspirit = [];
+        this.casillaSpirit = [];
         this.casillasMarcada = [];
 
         //Creo los rectangulos con los que va a interactuar el espiritu
@@ -48,9 +39,9 @@ export class Espiritu{
                 this.spirit,
                 rectangulo2,
                 (spirit, rectangulo) => {
-                    if (this.casillaspirit.indexOf(rectangulo) === -1) {
+                    if (this.casillaSpirit.indexOf(rectangulo) === -1) {
                         //Pusheo las casillas al array de casillasspirit
-                        this.casillaspirit.push(rectangulo);
+                        this.casillaSpirit.push(rectangulo);
                         this.comprobarCasillas();
                        
                     }
@@ -84,27 +75,26 @@ export class Espiritu{
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
 
             //variable para corroborar la posicion de las casillas
-            let casillaspiritIn = false
-            this.casillaspirit.forEach(c => {
+            let casillaSpiritIn = false
+            this.casillaSpirit.forEach(c => {
                 if (c.x == casilla.x && c.y == casilla.y)
                 {
-                    casillaspiritIn = true;
+                    casillaSpiritIn = true;
                     
                 }
             });
-            if (casillaspiritIn) {
+
+            if (casillaSpiritIn) {
                 this.casillasMarcada.push(
                     this.scene.add.image(casilla.x, casilla.y, "marca").setDepth(1).setOrigin(1.5,0.5)
                 );
             }
             //le agrego la interactividad a las casillas
             rectangulo2.setInteractive().on("pointerdown", () => {
-        
-                
-                if (casillaspiritIn) {
+                if (casillaSpiritIn) {
                    
                     // Movimiento de personaje
-                    if (!this.spirit.anims.isPlaying && this.scene.spiritmov > 0) {
+                    if (!this.spirit.anims.isPlaying && this.scene.spiritMov > 0) {
                         //si las casillas tienen una propiedad entra al if
                         if (casilla.properties) {
                             //especifico la propiedad que va a buscar
@@ -129,10 +119,10 @@ export class Espiritu{
     
                             //se ejecuta al final del movimiento
                             onComplete: () => {
-                                this.casillaspirit = [];
+                                this.casillaSpirit = [];
                                 this.spirit.anims.pause();
-                                this.scene.spiritmov --;
-                                this.scene.spiritmov1 --;
+                                this.scene.spiritMov --;
+                                this.scene.spiritMov1 --;
                                 this.audio1.pause();  
                                 //destruyo las casillas viejas
                                 this.recTemp.forEach(rectangulosTemp => {
@@ -153,14 +143,6 @@ export class Espiritu{
             //Pusheo las casillas al array de recTemp
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
-
-            //overlap entre el espiritu y la cueva
-            this.scene.physics.add.overlap(
-                this.spirit,
-                this.salida2, 
-                (spi) => { this.scene.victory = true
-                    //this.scene.audio3.pause();
-                }, null, this)
 
 
         },this);

@@ -1,13 +1,5 @@
 export class Monstruo{
     scene;
-    monster;
-    movimientos;
-    casillaDisponible;
-    oscuroFondo;
-    audio1;
-    recTemp;
-    casillasMarcada;
-    mar;
     constructor(scene){
         this.scene = scene;
         this.init();
@@ -81,6 +73,7 @@ export class Monstruo{
                     casillaDisponibleIn = true;
                 }
             });
+
             if (casillaDisponibleIn) {
                 this.casillasMarcada.push(
                     this.mar = this.scene.add.image(casilla.x, casilla.y, "marca").setDepth(1).setOrigin(1.5,0.5)
@@ -90,7 +83,7 @@ export class Monstruo{
             rectangulo2.setInteractive().on("pointerdown", () => {    
                 if (casillaDisponibleIn) {
                     this.scene.add.image()
-                    if (!this.monster.anims.isPlaying && this.scene.monstermov > 0) {
+                    if (!this.monster.anims.isPlaying && this.scene.monsterMov > 0) {
                         this.scene.tweens.add({
                             targets: this.monster,
                             alpha: 1,
@@ -101,7 +94,7 @@ export class Monstruo{
                             x: rectangulo2.body.position.x + rectangulo2.body.width/2,
                             y: rectangulo2.body.position.y,
                             onComplete: () => {
-                                this.scene.monstermov --;
+                                this.scene.monsterMov --;
                                 
                                 this.casillaDisponible = [];
                                 this.monster.anims.pause();
@@ -120,8 +113,6 @@ export class Monstruo{
                             onStart: () => {
                                 this.monster.anims.play("monstruocamina", true);
                                 this.audio1.play();
-                                
-                               // this.mar.visible = false;
                                 
                             },
                             

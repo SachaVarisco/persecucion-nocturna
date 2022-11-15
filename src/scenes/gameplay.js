@@ -17,7 +17,7 @@ export class gameplay extends Phaser.Scene{
     turno = 0;
     pausa = 0;
 
-    spiritmov1 = 0;
+    spiritMov1 = 0;
     
     spirit;
     monster;
@@ -35,11 +35,10 @@ export class gameplay extends Phaser.Scene{
     
 
     create() {
-        this.victory = false;
-        this.gameOver = false;
+        
 		this.turno = 0;
-        this.monstermov = 10;
-        this.spiritmov = 0;
+        this.monsterMov = 10;
+        this.spiritMov = 0;
 
         this.isAlarmActive = false;
         this.dataAlarmActive = {};
@@ -97,8 +96,19 @@ export class gameplay extends Phaser.Scene{
         this.physics.add.overlap(
             this.monster.monster,
             this.spirit.spirit, 
-             (mos) => { this.gameOver = true,
-                 this.audio3.pause()
+             (mos) => { this.gameOver()     
+        }, null, this)
+
+         //overlap entre el espiritu y la cueva
+        this.physics.add.overlap(
+            this.spirit.spirit,
+            this.spirit.salida2, 
+            (spi) => {
+            this.game.sound.stopAll();
+            setTimeout(() => {
+                this.scene.start("victoria");
+                }, 1000);
+            return
         }, null, this)
 
         //Variable y texto del timer
@@ -122,23 +132,6 @@ export class gameplay extends Phaser.Scene{
     }
    
     update() {
-        if (this.gameOver == true) {
-            this.monstermov = 0;
-            this.monster.oscuroFondo.visible = false;
-            this.spirit.spirit.anims.play("espiritumuerto", true);
-            setTimeout(() => {
-                this.scene.start("gameover")
-              }, 2000);
-            return
-        }
-
-        if (this.victory == true) {
-            setTimeout(() => {
-                this.scene.start("victoria")
-              }, 1000);
-            return
-        }
-
         //Llamo a los update de cada clase
         this.monster.update();
         this.spirit.update();
@@ -146,14 +139,14 @@ export class gameplay extends Phaser.Scene{
 
        
 
-        if (this.monstermov == 0 && this.spiritmov == 0) {
+        if (this.monsterMov == 0 && this.spiritMov == 0) {
             this.spirit.comprobarCasillas();
 
             this.UI.Tutospi();
 
             this.turno = 1;
-            this.spiritmov = 7;
-            this.spiritmov1 = 6; 
+            this.spiritMov = 7;
+            this.spiritMov1 = 6; 
 
             this.monster.oscuroFondo.visible = false;
 
@@ -166,7 +159,7 @@ export class gameplay extends Phaser.Scene{
             }).setDepth(7);
             
             this.UI.energiaText.destroy();
-            this.UI.energiaText = this.add.text(650, 30, this.spiritmov1, {
+            this.UI.energiaText = this.add.text(650, 30, this.spiritMov1, {
                 fontSize: "90px",
                 fill: "#000",
                 fontFamily:'Prueba2',
@@ -174,14 +167,14 @@ export class gameplay extends Phaser.Scene{
            
         }
         
-        if (this.spiritmov == 1) { 
+        if (this.spiritMov == 1) { 
             this.monster.comprobarCasillas();
             this.UI.Destruir();
 
             this.pausa = 0;
             this.turno = 0;
-            this.monstermov = 10;
-            this.spiritmov = 0;
+            this.monsterMov = 10;
+            this.spiritMov = 0;
 
             this.UI.cartel.visible = true;
             this.UI.cartelTxt.visible = true;
@@ -197,7 +190,7 @@ export class gameplay extends Phaser.Scene{
 
 
             this.UI.energiaText.destroy();
-            this.UI.energiaText = this.add.text(650, 30, this.monstermov, {
+            this.UI.energiaText = this.add.text(650, 30, this.monsterMov, {
                 fontSize: "90px",
                 fill: "#000",
                 fontFamily:'Prueba2',
@@ -227,12 +220,22 @@ export class gameplay extends Phaser.Scene{
         if (! this.gameOver) {       
             this.scoreTime = this.scoreTime - this.pausa;
             this.scoreTimeText.setText(this.scoreTime).setDepth(7);
-            if (this.scoreTime == 0 && this.monstermov > 0) {
-                this.monstermov = 0;
-            } else if (this.scoreTime == 0 && this.spiritmov > 1) {
-                this.spiritmov = 1;
+            if (this.scoreTime == 0 && this.monsterMov > 0) {
+                this.monsterMov = 0;
+            } else if (this.scoreTime == 0 && this.spiritMov > 1) {
+                this.spiritMov = 1;
             }          
         }
     }
   
+    gameOver(){
+        this.game.sound.stopAll();
+        this.monster.oscuroFondo.visible = false;
+        this.spirit.spirit.anims.play("espiritumuerto", true);
+        setTimeout(() => {
+            this.scene.start("gameover")
+            }, 2000);
+        return
+    }
+
 }
