@@ -1,9 +1,29 @@
+![Logo](https://github.com/SachaVarisco/phaser3-parcel-template/blob/master/public/assets/images/logo.png)
+
+
+# Persecución Nocturna
+
+Turn-based strategy web game for 2 players. 
+Where a player, in the role of monster, must chase the others, in the role of spirits, to prevent them from escaping to their cave.
+
+
+## Samurai Hamster studio
+
+![Studio](https://github.com/SachaVarisco/phaser3-parcel-template/blob/master/public/assets/images/HAMSTER%20LOGO.png)
+- [@SachaVarisco](https://www.github.com/SachaVarisco) - Programmer & Designer / Mail: varisco54@gmail.com 
+- [@AgusHilal](https://www.github.com/AgusHilal) - Artist & Designer / Mail: A.nhilal45@gmail.com
+
+
+
+## Framework
 ![phaser3-parceljs-template](https://user-images.githubusercontent.com/2236153/71606463-37a0da80-2b2e-11ea-9b5f-5d26ccc84f91.png)
 
-# Phaser 3 + Parcel Template
-> For people who want to spend time making games instead of configuring build tools.
+Phaser 3
 
-![License](https://img.shields.io/badge/license-MIT-green)
+
+## Link to game
+
+https://persecucionnocturna-grupo10.netlify.app/
 
 ## Prerequisites
 
