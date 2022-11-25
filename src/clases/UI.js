@@ -8,6 +8,7 @@ export class UI{
         this.scene = scene;
         this.Inicio();
     }
+    
     Inicio(){
         this.scene.add.image(1200, 70, "timer").setDepth(6);
 
@@ -66,6 +67,7 @@ export class UI{
 
 
     }
+    
     update(){
         if (this.scene.turno == 0) {
             this.energiaText.text = this.scene.monsterMov.toString();

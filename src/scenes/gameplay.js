@@ -1,16 +1,11 @@
 import Phaser from 'phaser'
-
-
 import { victoria } from './victory';
 import { gameover } from './gameover';
 import { Monstruo } from '../clases/monstruo';
 import { Espiritu } from '../clases/espiritu';
 import {UI} from '../clases/UI'
-
-
 import { sharedInstance as events } from '../scenes/EventCenter'
-
-
+import { getData, pushData } from '../services/database'
 
 export class gameplay extends Phaser.Scene{
 	
@@ -28,6 +23,10 @@ export class gameplay extends Phaser.Scene{
 		super('gameplay')
 
 	}
+
+    init(data){
+        this.victory = data.victory1;
+    }
 	preload() {
         this.load.tilemapTiledJSON("map", "assets/tilemaps/mapa.json");
         this.load.image("fondo", "assets/images/spritesheet.png");
@@ -73,20 +72,16 @@ export class gameplay extends Phaser.Scene{
             (obj) => obj.name === "monstruo"
         );
     
-        
-
         this.casillas = map.filterObjects(
             "objetos",
             (obj) => obj.type === "casilla"
         );
-        console.log(this.casillas)
 
         this.cuevas = map.findObject(
             "objetos", 
             (obj) => obj.type === "cueva"
         );
-
-       
+        
         //Creo los elementos llamando las clases
         this.spirit = new Espiritu(this);
 		this.monster = new Monstruo(this);
@@ -99,12 +94,14 @@ export class gameplay extends Phaser.Scene{
              (mos) => { this.gameOver()     
         }, null, this)
 
-         //overlap entre el espiritu y la cueva
+        //overlap entre el espiritu y la cueva
         this.physics.add.overlap(
             this.spirit.spirit,
             this.spirit.salida2, 
             (spi) => {
             this.game.sound.stopAll();
+            this.victory = "spirit";
+            pushData(this.victory);
             setTimeout(() => {
                 this.scene.start("victoria");
                 }, 1000);
@@ -130,6 +127,7 @@ export class gameplay extends Phaser.Scene{
         this.isAlarmActive = true
         this.dataAlarmActive = alarma
     }
+    
    
     update() {
         //Llamo a los update de cada clase
@@ -217,21 +215,23 @@ export class gameplay extends Phaser.Scene{
     }
     //Funcion para restar tiempo y pasar el turno cuando se acabe
     onSecond(){
-        if (! this.gameOver) {       
-            this.scoreTime = this.scoreTime - this.pausa;
-            this.scoreTimeText.setText(this.scoreTime).setDepth(7);
-            if (this.scoreTime == 0 && this.monsterMov > 0) {
-                this.monsterMov = 0;
-            } else if (this.scoreTime == 0 && this.spiritMov > 1) {
-                this.spiritMov = 1;
-            }          
-        }
+              
+        this.scoreTime = this.scoreTime - this.pausa;
+        this.scoreTimeText.setText(this.scoreTime).setDepth(7);
+        if (this.scoreTime == 0 && this.monsterMov > 0) {
+            this.monsterMov = 0;
+        } else if (this.scoreTime == 0 && this.spiritMov > 1) {
+            this.spiritMov = 1;
+        }          
+        
     }
   
     gameOver(){
         this.game.sound.stopAll();
         this.monster.oscuroFondo.visible = false;
         this.spirit.spirit.anims.play("espiritumuerto", true);
+        this.victory = "monster";
+            pushData(this.victory);
         setTimeout(() => {
             this.scene.start("gameover")
             }, 2000);

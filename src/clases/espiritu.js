@@ -1,26 +1,37 @@
 import { sharedInstance as events } from '../scenes/EventCenter'
 import {ALARM} from '../enums/data'
 
+
 export class Espiritu{
     scene;
-    
+    victory;
 
     constructor(scene){
         this.scene = scene;
         this.init();
         
     }
+    dato(data){
+        this.victory = data;
+    }
    
     init(){
+        if(this.scene.victory == "monster"){
+            //creo el espiritu
+            this.spirit = this.scene.physics.add
+            .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "zorro")
+            .setCircle(110, -60, -40)
+            .setDepth(2);
+        }else{
+            this.spirit = this.scene.physics.add
+            .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
+            .setCircle(110, -60, -40)
+            .setDepth(2);
+        }
         
-        //creo el espiritu
-        this.spirit = this.scene.physics.add
-        .sprite(this.scene.spawnPoint.x, this.scene.spawnPoint.y, "espiritu")
-        .setCircle(110, -60, -40)
-        .setDepth(2);
-        this.audio1 = this.scene.sound.add('pasos');
+        
+       this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.8
-       
         //creo arrays
         this.recTemp = [];
         this.casillaSpirit = [];
@@ -132,7 +143,11 @@ export class Espiritu{
                             },
                             //se ejecuta al pricipio del movimiento
                             onStart: () => {
-                                this.spirit.anims.play("espiritucamina", true);
+                                if(this.scene.victory == "monster"){
+                                    this.spirit.anims.play("zorrocamina", true);
+                                }else{
+                                    this.spirit.anims.play("espiritucamina", true);
+                                }
                                 this.audio1.play();
                                 
                             },
@@ -150,5 +165,7 @@ export class Espiritu{
        
     
     }
+    
+    
 
 }

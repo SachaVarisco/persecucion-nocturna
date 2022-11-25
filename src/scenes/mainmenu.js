@@ -2,12 +2,15 @@ import Phaser from 'phaser'
 import { EN_US, ES_AR } from '../enums/lenguages'
 import { FETCHED, FETCHING, READY, TODO } from '../enums/status'
 import { getTranslations, getPhrase } from '../services/translations'
+import { getData } from '../services/database'
+import { sharedInstance as events } from '../scenes/EventCenter'
 
 export class MainMenu extends Phaser.Scene {
 	#language
 	#updatedTextInScene;
 	#updatedString = 'Siguiente'
     #wasChangedLanguage = TODO
+	victory;
 
 	constructor() {
 	  super("MainMenu");
@@ -27,9 +30,8 @@ export class MainMenu extends Phaser.Scene {
 	  this.add
 		.image(this.cameras.main.centerX, this.cameras.main.centerY, "Mainfondo");
   
-	  this.jugar = this.add.text(220, 320, getPhrase('Jugar'),{ fontSize: "160px", fill: "#000", fontFamily:'Prueba',fontStyle: 'bold'}).setAngle(18).setInteractive().on("pointerdown",()=>this.scene.start('gameplay', 
-	  audio1.pause(),
-	  audio2.play(),
+	  this.jugar = this.add.text(220, 320, getPhrase('Jugar'),{ fontSize: "160px", fill: "#000", fontFamily:'Prueba',fontStyle: 'bold'}).setAngle(18).setInteractive().on("pointerdown",()=>this.scene.start('gameplay', { victory1: this.victory },
+	  audio1.pause(), audio2.play(),
 	  ));
 	  
 	  this.creditos = this.add.text(60, 910, getPhrase("Créditos"), { fontSize: "100px", fill: "#000", fontFamily:'Prueba',fontStyle: 'bold'}).setInteractive().on("pointerdown",()=>this.scene.start("creditos", 
@@ -49,8 +51,10 @@ export class MainMenu extends Phaser.Scene {
 		const BotonEEUU = this.add.image(1730, 1000, "EEUU")
 		.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
 			  this.getTranslations(EN_US)
-		  })
-
+		})
+		getData();
+		events.on('dato-recibido', this.dato, this)
+		
   
 	}
 	updateWasChangedLanguage = () => {
@@ -71,4 +75,7 @@ export class MainMenu extends Phaser.Scene {
 			this.creditos.setText(getPhrase("Créditos"));
 		}
 	};
-  }
+	dato(data){
+		this.victory = data;
+	};
+}

@@ -32,6 +32,8 @@ export  class preload extends Phaser.Scene {
 	  this.load.spritesheet("espiritu", "assets/images/ConejoTileset.png", {frameWidth: 84, frameHeight: 116,})
 	  this.load.spritesheet("espiritumuerto", "assets/images/ConejoCongelado.png", {frameWidth: 84, frameHeight: 116,})
 	  this.load.spritesheet("monstruo", "assets/images/MonstruoTileset.png", {frameWidth: 84, frameHeight: 116,})
+	  this.load.spritesheet("mama","assets/images/momSprite.png",{frameWidth: 84, frameHeight: 116,})
+	  this.load.spritesheet("zorro","assets/images/zorroSprite.png",{frameWidth: 84, frameHeight: 116,})
 	  this.load.audio("intro", "assets/sounds/menusong.mp3");
 	  this.load.audio("pasos", "assets/sounds/pasos2.wav");
 	  this.load.audio("select", "assets/sounds/select.wav");
@@ -42,6 +44,12 @@ export  class preload extends Phaser.Scene {
 	  this.anims.create({
 		key: "monstruocamina",
 		frames: this.anims.generateFrameNumbers("monstruo", { start: 0, end: 4 }),
+		frameRate: 10,
+		repeat: -1,
+	  });
+	  this.anims.create({
+		key: "mamacamina",
+		frames: this.anims.generateFrameNumbers("mama", { start: 0, end: 4 }),
 		frameRate: 10,
 		repeat: -1,
 	  });
@@ -57,6 +65,13 @@ export  class preload extends Phaser.Scene {
 		frameRate: 10,
 		repeat: -1,
 	  });
+	  this.anims.create({
+		key: "zorrocamina",
+		frames: this.anims.generateFrameNumbers("zorro", { start: 0, end: 4 }),
+		frameRate: 10,
+		repeat: -1,
+	  });
+	  
 	  getTranslations(
 		this.#language,
 		()=>this.scene.start("MainMenu",{ language: this.#language }),

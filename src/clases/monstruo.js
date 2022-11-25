@@ -1,5 +1,9 @@
+import { getData } from '../services/database'
+import { sharedInstance as events } from '../scenes/EventCenter'
+
 export class Monstruo{
     scene;
+    victory;
     constructor(scene){
         this.scene = scene;
         this.init();
@@ -7,11 +11,19 @@ export class Monstruo{
     
 
     init(){
-        
+        getData();
+        events.on('dato-recibido', this.dato, this)
+        if(this.scene.victory == "spirit"){
+        this.monster = this.scene.physics.add
+        .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "mama")
+        .setCircle(120, -60, -40)
+        .setDepth(2);
+        }else{
         this.monster = this.scene.physics.add
         .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
         .setCircle(120, -60, -40)
         .setDepth(2);
+        }
 
         this.oscuroFondo = this.scene.add
         .image(this.monster.x, this.monster.y, "luz")
@@ -111,7 +123,11 @@ export class Monstruo{
                                 this.oscuroFondo.setY(this.monster.y);
                             },
                             onStart: () => {
-                                this.monster.anims.play("monstruocamina", true);
+                                if(this.scene.victory == "spirit"){
+                                    this.monster.anims.play("mamacamina", true);
+                                }else{
+                                    this.monster.anims.play("monstruocamina", true);
+                                }
                                 this.audio1.play();
                                 
                             },
@@ -135,7 +151,9 @@ export class Monstruo{
             marca.destroy();
         });
     }
-    
+    dato(data){
+        this.victory = data;
+    }
 }
 
 

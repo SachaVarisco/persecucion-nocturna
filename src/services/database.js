@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import {get, getDatabase, ref, set, child} from 'firebase/database'
+import { sharedInstance as events } from '../scenes/EventCenter'
+import {get, getDatabase, ref, set, child, update} from 'firebase/database'
 
 const firebaseConfig = {
     apiKey: "AIzaSyB-tS0clpaUg5Vn0CwParJqKsCtYCIFaSg",
@@ -8,45 +9,37 @@ const firebaseConfig = {
     storageBucket: "persecucion-nocturna.appspot.com",
     messagingSenderId: "615769933382",
     appId: "1:615769933382:web:6bc0056124072545162c47",
-    measurementId: "G-ZD7VT5XBF4"
-
+    measurementId: "G-ZD7VT5XBF4",
     databaseURL: "https://persecucion-nocturna-default-rtdb.firebaseio.com",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-export async function EscribirDato(victoryId){
-        
-    set(ref(db, 'users/' + victoryId), {
-        victoryId : victory,
-    });
-}
-
-export async function LeerDato(){
-    const dbRef = ref(getDatabase(app));
-    get(child(dbRef, 'users/${victoryId}')).then((snapshot)=> {
+export async function getData(){
+    const dbRef = ref(db);
+    get(child(dbRef, 'users/victoryId')).then((snapshot)=> {
         if (snapshot.exists()) {
             console.log(snapshot.val());
-        } else {
+            const data = snapshot.val();
+            events.emit('dato-recibido', data)
+         } else {
             console.log("No data available (control)");
-        }
-        }).catch((error) => {
-        console.error(error);
+         }
+          }).catch((error) => {
+         console.error(error);
     });
 }
 
-export async function ActualizarDato(victoryId){
-    const vicData = {
-        victory : victoryId,
-    }
-
-    const newVicKey = push(child(ref(db),'posts')).key;
-
-    const updates = {};
-    updates['/posts/' + newVicKey] = vicData;
-
-    return update(ref(db), updates);
-
+export async function pushData(victory){
+    update(ref(db, 'users/'),{
+        victoryId : victory
+    })
+    .then(()=>{
+        console.log("data updated")
+    })
+    .catch((error)=>{
+        console.log("not updated" + error)
+    });
 }
     
