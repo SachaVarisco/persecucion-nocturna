@@ -8,8 +8,9 @@ Where a player, in the role of monster, must chase the others, in the role of sp
 
 
 ## Samurai Hamster studio
-
-![Studio](https://github.com/SachaVarisco/phaser3-parcel-template/blob/master/public/assets/images/HAMSTERLOGO1.png)
+<p align="center">
+  <img src="[https://github.com/waldyr/Sublime-Installer/blob/master/sublime_text.png?raw=true](https://github.com/SachaVarisco/phaser3-parcel-template/blob/master/public/assets/images/HAMSTERLOGO1.png)" alt="Studio"/>
+</p>
 - [@SachaVarisco](https://www.github.com/SachaVarisco) - Programmer & Designer / Mail: varisco54@gmail.com 
 - [@AgusHilal](https://www.github.com/AgusHilal) - Artist & Designer / Mail: A.nhilal45@gmail.com
 
