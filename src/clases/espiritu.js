@@ -11,10 +11,6 @@ export class Espiritu{
         this.init();
         
     }
-    dato(data){
-        this.victory = data;
-    }
-   
     init(){
         if(this.scene.victory == "monster"){
             //creo el espiritu
@@ -29,8 +25,7 @@ export class Espiritu{
             .setDepth(2);
         }
         
-        
-       this.audio1 = this.scene.sound.add('pasos');
+        this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.8
         //creo arrays
         this.recTemp = [];
@@ -53,7 +48,7 @@ export class Espiritu{
                     if (this.casillaSpirit.indexOf(rectangulo) === -1) {
                         //Pusheo las casillas al array de casillasspirit
                         this.casillaSpirit.push(rectangulo);
-                        this.comprobarCasillas();
+                        this.ComprobarCasillas();
                        
                     }
                     
@@ -66,7 +61,7 @@ export class Espiritu{
     }
 
     //Agrego una función que va a llamarse en el update del gameplay
-    update(){
+    Update(){
         this.casillasMarcada.forEach(casilla => {
             //Ternaria: es como un if pero de una sola linea
             casilla.alpha = (!this.spirit.anims.isPlaying) ? 1 : 0;
@@ -74,13 +69,11 @@ export class Espiritu{
     }
 
     //Funcion para obligar a que se guarden las casilas 
-    comprobarCasillas() {
+    ComprobarCasillas() {
         this.casillasMarcada.forEach(marca => {
             marca.destroy();
         });
         this.scene.casillas.forEach((casilla) => {
-
-            
             //le agrego hitbox a las casillas
             let rectangulo = this.scene.add.rectangle(casilla.x, casilla.y, 85, 65).setOrigin(1,.5);
             let rectangulo2 = this.scene.physics.add.existing(rectangulo);
@@ -139,7 +132,6 @@ export class Espiritu{
                                 this.recTemp.forEach(rectangulosTemp => {
                                     rectangulosTemp.destroy();
                                 });
-    
                             },
                             //se ejecuta al pricipio del movimiento
                             onStart: () => {
@@ -149,7 +141,6 @@ export class Espiritu{
                                     this.spirit.anims.play("espiritucamina", true);
                                 }
                                 this.audio1.play();
-                                
                             },
                         });
                     }
@@ -158,14 +149,6 @@ export class Espiritu{
             //Pusheo las casillas al array de recTemp
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
-
-
         },this);
-
-       
-    
     }
-    
-    
-
 }

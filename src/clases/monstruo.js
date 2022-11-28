@@ -1,28 +1,23 @@
-import { getData } from '../services/database'
-import { sharedInstance as events } from '../scenes/EventCenter'
-
 export class Monstruo{
     scene;
     victory;
+    monster;
     constructor(scene){
         this.scene = scene;
         this.init();
     }
-    
 
     init(){
-        getData();
-        events.on('dato-recibido', this.dato, this)
         if(this.scene.victory == "spirit"){
-        this.monster = this.scene.physics.add
-        .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "mama")
-        .setCircle(120, -60, -40)
-        .setDepth(2);
+            this.monster = this.scene.physics.add
+            .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "mama")
+            .setCircle(120, -60, -40)
+            .setDepth(2);
         }else{
-        this.monster = this.scene.physics.add
-        .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
-        .setCircle(120, -60, -40)
-        .setDepth(2);
+            this.monster = this.scene.physics.add
+            .sprite(this.scene.spawnPoint2.x, this.scene.spawnPoint2.y, "monstruo")
+            .setCircle(120, -60, -40)
+            .setDepth(2);
         }
 
         this.oscuroFondo = this.scene.add
@@ -30,16 +25,12 @@ export class Monstruo{
         .setOrigin(0.495,0.5)
         .setDepth(2);
 
-        
         this.audio1 = this.scene.sound.add('pasos');
         this.audio1.volume -= 0.5
         
-
         this.recTemp = [];
         this.casillaDisponible = [];
         this.casillasMarcada = [];
-
-    
 
         this.scene.casillas.forEach((casilla) => {
             
@@ -52,7 +43,7 @@ export class Monstruo{
                 (monster, rectangulo) => {
                     if (this.casillaDisponible.indexOf(rectangulo) === -1) {
                         this.casillaDisponible.push(rectangulo);
-                        this.comprobarCasillas();
+                        this.ComprobarCasillas();
                     }
                     
                 },
@@ -62,13 +53,14 @@ export class Monstruo{
         });
     }
 
-    update(){
+    Update(){
         this.casillasMarcada.forEach(casilla => {
             //ternaria: es como un if pero de una sola linea
             casilla.alpha = (!this.monster.anims.isPlaying) ? 1 : 0;
         });
     }
-    comprobarCasillas()
+
+    ComprobarCasillas()
     {
         this.casillasMarcada.forEach(marca => {
             marca.destroy();
@@ -116,7 +108,6 @@ export class Monstruo{
                                 });
                                // this.mar.visible = true;
                             },
-
                             //Se ejecuta durante el movimiento
                             onUpdate: () =>{
                                 this.oscuroFondo.setX(this.monster.x);
@@ -137,22 +128,16 @@ export class Monstruo{
                     }
                 }
             });
-
             this.recTemp.push(rectangulo2);
             this.recTemp.push(rectangulo);
 
-            
-           
-
         },this);
     }
-    romper(){
+    
+    Romper(){
         this.casillasMarcada.forEach(marca => {
             marca.destroy();
         });
-    }
-    dato(data){
-        this.victory = data;
     }
 }
 

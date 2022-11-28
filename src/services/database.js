@@ -23,11 +23,11 @@ export async function getData(){
             console.log(snapshot.val());
             const data = snapshot.val();
             events.emit('dato-recibido', data)
-         } else {
+        } else {
             console.log("No data available (control)");
-         }
-          }).catch((error) => {
-         console.error(error);
+        }
+    }).catch((error) => {
+    console.error(error);
     });
 }
 

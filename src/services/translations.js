@@ -47,16 +47,6 @@ export function getLanguageConfig() {
     // Obtener desde la URL el idioma
     console.log(window.location.href)
 
-    /* 
-      depende como lo manejemos: 
-      1) puede venir como www.dominio.com/es-AR
-      2) puede venir como www.dominio.com?lang=es-AR
-      En el primer caso se obtiene con: window.location.pathname
-      En el segundo caso se obtiene leyendo el query param lang 
-      
-      vamos a implementar una logica que cubra ambos casos
-    */
-
     const path = window.location.pathname !== '/' ? window.location.pathname : null;
     const params = new URL(window.location.href).searchParams;
     const queryLang = params.get('lang');

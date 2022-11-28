@@ -2,7 +2,8 @@
 import { getTranslations, getPhrase } from '../services/translations'
 
 export class UI{
-    
+    pausa;
+    energiaText;
 
     constructor(scene){
         this.scene = scene;
@@ -10,17 +11,31 @@ export class UI{
     }
     
     Inicio(){
+        this.pausa = 0;
         this.scene.add.image(1200, 70, "timer").setDepth(6);
-
         this.scene.add.image(600, 70, "energia").setDepth(6);
-        if (this.scene.monsterMov > 0) {
-            this.energiaText = this.scene.add.text(650, 30, this.scene.monsterMov, {
-           
-                fontSize: "90px",
-                fill: "#000",
-                fontFamily:'Prueba2',
-            }).setDepth(7);
-        }
+        this.energiaText = this.scene.add.text(650, 30, this.scene.monsterMov, {
+        
+            fontSize: "90px",
+            fill: "#000",
+            fontFamily:'Prueba2',
+        }).setDepth(7);
+    
+        this.timedEvent = this.scene.time.addEvent({ 
+            delay: 1000, 
+            callback: this.onSecond, 
+            callbackScope: this, 
+            loop: true 
+        });
+
+        //Variable y texto del timer
+        this.scoreTime = 40;
+        this.scoreTimeText = this.scene.add.text(1165, 30, this.scoreTime, {
+            fontSize: "70px",
+            fill: "#000",
+            fontFamily:'Prueba2',
+        }).setDepth(7);
+
         //Cartel de paso de turno
         this.cartel = this.scene.add.image(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, "Turno").setInteractive().on("pointerdown", ()=> this.Quitar()).setDepth(4);
         this.cartel.visible = false;
@@ -64,20 +79,18 @@ export class UI{
         this.pausar.visible = false;
         this.reanudar.visible = false;
         this.salir.visible = false;
-
-
     }
     
-    update(){
+    Update(){
         if (this.scene.turno == 0) {
+           
             this.energiaText.text = this.scene.monsterMov.toString();
         }else{
+            
             this.energiaText.text = this.scene.spiritMov1.toString();
-            this.scene.monster.romper();
+            this.scene.monster.Romper();
         }
     }
-
-   
 
     //Hace visible el tutorial del espiritu.
     Tutospi(){
@@ -106,10 +119,9 @@ export class UI{
 
     //Funcion para quitar las imagenes del juego
     Quitar(){
-        this.scene.pausa = 1;
+        this.pausa = 1;
         this.cartel.visible = false;
         this.cartelTxt.visible = false;
-
         this.tutoMons.visible = false;
         this.tutoMonsTag.visible = false;
         this.tutoMonsTxt.visible = false;
@@ -118,31 +130,28 @@ export class UI{
         this.tutoMonsMarca.visible = false;
         this.tutoMonsEne.visible = false;
         this.tutoMonsAlert.visible = false;
-        this.tutoAlerTxt.visible = false;
-        
+        this.tutoAlerTxt.visible = false;    
     }
 
     //Funcion para pausar el juego
     Pausa(){
-        this.scene.pausa = 0;
+        this.pausa = 0;
         this.reanudar.visible = true;
         this.pausar.visible = true;
         this.salir.visible = true;
     }
 
     QuitarPausa(){
-        this.scene.pausa = 1;
+        this.pausa = 1;
         this.reanudar.visible = false;
         this.pausar.visible = false;
         this.salir.visible = false;
     }
     
     QuitarSpi(){
-        this.scene.pausa = 1;
-        
+        this.pausa = 1;
         this.cartel.visible = false;
         this.cartelTxt.visible = false;
-
         this.tutoSpi.visible = false;
         this.tutoSpiTag.visible = false;
         this.tutoSpiTxt.visible = false;
@@ -150,5 +159,16 @@ export class UI{
         this.tutoSpiMarca.visible = false;
         this.tutoSpiEne.visible = false;
         this.tocaSpiTxt.visible = false;
+    }
+
+    //Funcion para restar tiempo y pasar el turno cuando se acabe
+    onSecond(){
+        this.scoreTime = this.scoreTime - this.pausa;
+        this.scoreTimeText.setText(this.scoreTime);
+        if (this.scoreTime == 0 && this.scene.monsterMov > 0) {
+            this.scene.monsterMov = 0;
+        } else if (this.scoreTime == 0 && this.scene.spiritMov > 1) {
+            this.scene.spiritMov = 1;
+        } 
     }
 }

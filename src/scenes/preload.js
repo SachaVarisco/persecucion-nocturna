@@ -1,10 +1,9 @@
 import Phaser from 'phaser'
-import { getLanguageConfig, getTranslations } from '../services/translations';
+import { getTranslations } from '../services/translations';
 export  class preload extends Phaser.Scene {
 
 	#language
 	constructor() {
-  
 	  super("preload");
 	}
   
@@ -42,42 +41,40 @@ export  class preload extends Phaser.Scene {
   
 	create() {
 	  this.anims.create({
-		key: "monstruocamina",
-		frames: this.anims.generateFrameNumbers("monstruo", { start: 0, end: 4 }),
-		frameRate: 10,
-		repeat: -1,
-	  });
+			key: "monstruocamina",
+			frames: this.anims.generateFrameNumbers("monstruo", { start: 0, end: 4 }),
+			frameRate: 10,
+			repeat: -1,
+	  	});
 	  this.anims.create({
-		key: "mamacamina",
-		frames: this.anims.generateFrameNumbers("mama", { start: 0, end: 4 }),
-		frameRate: 10,
-		repeat: -1,
-	  });
+			key: "mamacamina",
+			frames: this.anims.generateFrameNumbers("mama", { start: 0, end: 4 }),
+			frameRate: 10,
+			repeat: -1,
+	  	});
 	  this.anims.create({
-		key: "espiritumuerto",
-		frames: this.anims.generateFrameNumbers("espiritumuerto", { start: 0, end: 0 }),
-		frameRate: 10,
-		repeat: -1,
-	  });
+			key: "espiritumuerto",
+			frames: this.anims.generateFrameNumbers("espiritumuerto", { start: 0, end: 0 }),
+			frameRate: 10,
+			repeat: -1,
+	  	});
 	  this.anims.create({
-		key: "espiritucamina",
-		frames: this.anims.generateFrameNumbers("espiritu", { start: 0, end: 4 }),
-		frameRate: 10,
-		repeat: -1,
-	  });
+			key: "espiritucamina",
+			frames: this.anims.generateFrameNumbers("espiritu", { start: 0, end: 4 }),
+			frameRate: 10,
+			repeat: -1,
+	  	});
 	  this.anims.create({
-		key: "zorrocamina",
-		frames: this.anims.generateFrameNumbers("zorro", { start: 0, end: 4 }),
-		frameRate: 10,
-		repeat: -1,
-	  });
+			key: "zorrocamina",
+			frames: this.anims.generateFrameNumbers("zorro", { start: 0, end: 4 }),
+			frameRate: 10,
+			repeat: -1,
+	 	});
 	  
 	  getTranslations(
-		this.#language,
-		()=>this.scene.start("MainMenu",{ language: this.#language }),
-	  );
-	 
-	  
+			this.#language,
+			()=>this.scene.start("MainMenu",{ language: this.#language }),
+	  	); 
 	}
 
   }
